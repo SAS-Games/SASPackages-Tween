@@ -1,0 +1,10 @@
+{
+  "name": "com.sas.tweenmanagement",
+  "version": "1.0.0",
+  "displayName": "SAS Tween Management",
+  "unity": "2019.1",
+  "dependencies": {
+    "com.sas.utilities": "1.0.0"
+  },
+  "hideInEditor": true
+}
