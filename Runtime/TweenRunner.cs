@@ -23,7 +23,7 @@ namespace SAS.TweenManagment
 
         private TweenArray[] mTweens = new TweenArray[4];
 
-        public static void Add(in ITween tween, in TweenConfig tweenConfig)
+        internal static void Add(in ITween tween, in TweenConfig tweenConfig)
         {
             Instance.EnsureCapacity();
             Instance.mTweens[Instance.mSize++] = new TweenArray(tween, tweenConfig);
