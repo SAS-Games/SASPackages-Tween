@@ -16,15 +16,16 @@ namespace SAS.TweenManagment
 
     public interface ITween
     {
-        TweenState pState { get; set; }
-        float pDelayCounter { get; set; }
-        bool pDoInReverese { get; set; }
-        short pCompletedLoopCount { get; set; }
-        float pValue { get; set; }
+        TweenState State { get; set; }
+        float DelayCounter { get; set; }
+        bool DoInReverese { get; set; }
+        bool StopOnceCurrentLoopCompleted { get; set; }
+        short CompletedLoopCount { get; set; }
+        float Value { get; set; }
         void DoAnim(float val);
         void Run();
         void Pause();
-        void Stop();
+        void Stop(bool immediate);
     }
 
     public struct CustomLerp

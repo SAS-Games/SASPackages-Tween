@@ -15,7 +15,7 @@ namespace SAS.TweenManagment
             _isCompleted = false;
             TweenRunner.Instance.AddCallback(_itween, ele =>
             {
-                IsCompleted = _itween.pState == TweenState.DONE;
+                IsCompleted = _itween.State == TweenState.DONE;
             });
         }
 

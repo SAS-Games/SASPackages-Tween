@@ -5,11 +5,12 @@ namespace SAS.TweenManagment
 {
     public struct Vector4Tween : ITween
     {
-        float ITween.pDelayCounter { get; set; }
-        bool ITween.pDoInReverese { get; set; }
-        short ITween.pCompletedLoopCount { get; set; }
-        float ITween.pValue { get; set; }
-        public TweenState pState { get; set; }
+        float ITween.DelayCounter { get; set; }
+        bool ITween.DoInReverese { get; set; }
+        public bool StopOnceCurrentLoopCompleted { get; set; }
+        short ITween.CompletedLoopCount { get; set; }
+        float ITween.Value { get; set; }
+        public TweenState State { get; set; }
 
         private Action<Vector4> mOnUpdate { get; set; }
 
@@ -24,9 +25,15 @@ namespace SAS.TweenManagment
         }
 
         void ITween.DoAnim(float val) => mOnUpdate(CustomLerp.Action(mFrom, mTo, val));
-        public void Run() => pState = TweenState.RUN;
-        public void Pause() => pState = TweenState.PAUSE;
-        public void Stop() => pState = TweenState.DONE;
+        public void Run() => State = TweenState.RUN;
+        public void Pause() => State = TweenState.PAUSE;
+        public void Stop(bool immediate)
+        {
+            if (immediate)
+                StopOnceCurrentLoopCompleted = true;
+            else
+                State = TweenState.DONE;
+        }
     }
 }
 

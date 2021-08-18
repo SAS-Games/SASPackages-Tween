@@ -19,13 +19,13 @@ namespace SAS.TweenManagment
 
         public UnityEvent OnTweeningComplete;
         private CustomCurve mCustomCurve;
-        public OnAnimationCompleteCallback pOnTweenCompleteCallback { get; private set; }
+        public OnAnimationCompleteCallback OnTweenCompleteCallback { get; private set; }
 
         public void AddCallback(OnAnimationCompleteCallback callback)
         {
-            pOnTweenCompleteCallback += callback;
+            OnTweenCompleteCallback += callback;
         }
-        public CustomCurve pCustomAnimationCurve
+        public CustomCurve CustomAnimationCurve
         {
             get
             {
@@ -35,15 +35,15 @@ namespace SAS.TweenManagment
             }
         }
 
-        public float pDurationOrSpeed { get => m_DurationOrSpeed; }
-        public float pDelay { get => m_Delay; }
-        public int pLoopCount { get => m_LoopCount == 0 ? 1 : m_LoopCount; }
-        public bool pPingPong { get => m_PingPong; }
-        public EaseType pEaseType { get => m_Type; }
-        public bool pUseAnimationCurve { get => m_UseAnimationCurve; }
-        public AnimationCurve pAnimationCurve { get => m_AnimationCurve; }
-        public bool pIsTimeBased { get => m_IsTimeBased; }
-        public float pDelta { get; set; }
+        public float DurationOrSpeed { get => m_DurationOrSpeed; }
+        public float Delay { get => m_Delay; }
+        public int LoopCount { get => m_LoopCount == 0 ? 1 : m_LoopCount; }
+        public bool PingPong { get => m_PingPong; }
+        public EaseType EaseType { get => m_Type; }
+        public bool UseAnimationCurve { get => m_UseAnimationCurve; }
+        public AnimationCurve AnimationCurve { get => m_AnimationCurve; }
+        public bool IsTimeBased { get => m_IsTimeBased; }
+        public float Delta { get; set; }
 
         public TweenConfig(float durationOrSpeed = 1, bool timeBased = true, float delay = 0, int loopCount = 1, bool pingPong = false, EaseType easeType = EaseType.Linear, bool useAnimationCurve = false, AnimationCurve animationCurve = null, CustomCurve customCurve = null, OnAnimationCompleteCallback tweenCompleteCallback = null)
         {
@@ -57,8 +57,8 @@ namespace SAS.TweenManagment
             m_AnimationCurve = animationCurve;
             OnTweeningComplete = null;
             mCustomCurve = customCurve;
-            pOnTweenCompleteCallback = tweenCompleteCallback;
-            pDelta = 0;
+            OnTweenCompleteCallback = tweenCompleteCallback;
+            Delta = 0;
         }
     }
 }

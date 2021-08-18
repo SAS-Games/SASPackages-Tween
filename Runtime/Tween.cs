@@ -67,7 +67,7 @@ namespace SAS.TweenManagment
 
         public static ITween CreateTween(float from, float to, Action<float> onUpdate, ref TweenConfig tweenConfig)
         {
-            tweenConfig.pDelta = GetDeltaMove(from, to, tweenConfig.pDurationOrSpeed, tweenConfig.pIsTimeBased);
+            tweenConfig.Delta = GetDeltaMove(from, to, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
             ITween iTween = new FloatTween(from, to, onUpdate);
             TweenRunner.Add(iTween, tweenConfig);
             return iTween;
@@ -75,7 +75,7 @@ namespace SAS.TweenManagment
 
         public static ITween CreateTween(Vector2 from, Vector2 to, Action<Vector2> onUpdate, ref TweenConfig tweenConfig)
         {
-            tweenConfig.pDelta = GetDeltaMove(from, to, tweenConfig.pDurationOrSpeed, tweenConfig.pIsTimeBased);
+            tweenConfig.Delta = GetDeltaMove(from, to, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
             ITween iTween = new Vector2Tween(from, to, onUpdate);
             TweenRunner.Add(iTween, tweenConfig);
             return iTween;
@@ -83,7 +83,7 @@ namespace SAS.TweenManagment
 
         public static ITween CreateTween(Vector3 from, Vector3 to, Action<Vector3> onUpdate, ref TweenConfig tweenConfig)
         {
-            tweenConfig.pDelta = GetDeltaMove(from, to, tweenConfig.pDurationOrSpeed, tweenConfig.pIsTimeBased);
+            tweenConfig.Delta = GetDeltaMove(from, to, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
             ITween iTween = new Vector3Tween(from, to, onUpdate);
             TweenRunner.Add(iTween, tweenConfig);
             return iTween;
@@ -91,7 +91,7 @@ namespace SAS.TweenManagment
 
         public static ITween CreateTween(Vector4 from, Vector4 to, Action<Vector4> onUpdate, ref TweenConfig tweenConfig)
         {
-            tweenConfig.pDelta = GetDeltaMove(from, to, tweenConfig.pDurationOrSpeed, tweenConfig.pIsTimeBased);
+            tweenConfig.Delta = GetDeltaMove(from, to, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
             ITween iTween = new Vector4Tween(from, to, onUpdate);
             TweenRunner.Add(iTween, tweenConfig);
             return iTween;
@@ -171,39 +171,39 @@ namespace SAS.TweenManagment
 
         public class Parallel
         {
-            private ITween[] mTweens;
-            private Action mTweenCompletedCallback;
-            private int mCompletedTweenCount;
+            private ITween[] _tweens;
+            private Action _tweenCompletedCallback;
+            private int _completedTweenCount;
             private UnityEvent _animEndCallback;
 
             public Parallel(in ITween[] tweens, Action callback = null)
             {
-                mTweens = tweens;
-                mTweenCompletedCallback = callback;
-                mCompletedTweenCount = 0;
+                _tweens = tweens;
+                _tweenCompletedCallback = callback;
+                _completedTweenCount = 0;
             }
 
             public Parallel(ITween[] tweens, UnityEvent animEndCallback)
             {
-                mTweens = tweens;
+                _tweens = tweens;
                 _animEndCallback = animEndCallback;
-                mCompletedTweenCount = 0;
+                _completedTweenCount = 0;
             }
 
             public void Run()
             {
-                for (int i = 0; i < mTweens.Length; ++i)
+                for (int i = 0; i < _tweens.Length; ++i)
                 {
-                    TweenRunner.Instance.AddCallback(mTweens[i], fun => OnTweenComplete());
-                    mTweens[i].Run();
+                    TweenRunner.Instance.AddCallback(_tweens[i], fun => OnTweenComplete());
+                    _tweens[i].Run();
                 }
             }
 
             private void OnTweenComplete()
             {
-                if (++mCompletedTweenCount == mTweens.Length)
+                if (++_completedTweenCount == _tweens.Length)
                 {
-                    mTweenCompletedCallback?.Invoke();
+                    _tweenCompletedCallback?.Invoke();
                     _animEndCallback?.Invoke();
                 }
             }
@@ -211,29 +211,29 @@ namespace SAS.TweenManagment
 
         public class Sequence
         {
-            private ITween[] mTweens;
-            private Action mTweenCompletedCallback;
-            private int mCompletedTweenCount;
+            private ITween[] _tweens;
+            private Action _tweenCompletedCallback;
+            private int _completedTweenCount;
             public Sequence(in ITween[] tweens, Action callback = null)
             {
-                mTweens = tweens;
-                mTweenCompletedCallback = callback;
-                mCompletedTweenCount = 0;
+                _tweens = tweens;
+                _tweenCompletedCallback = callback;
+                _completedTweenCount = 0;
             }
 
             public void Run()
             {
-                for (int i = 0; i < mTweens.Length; ++i)
-                    TweenRunner.Instance.AddCallback(mTweens[i], fun => OnTweenComplete());
-                mTweens[mCompletedTweenCount].Run();
+                for (int i = 0; i < _tweens.Length; ++i)
+                    TweenRunner.Instance.AddCallback(_tweens[i], fun => OnTweenComplete());
+                _tweens[_completedTweenCount].Run();
             }
 
             private void OnTweenComplete()
             {
-                if (++mCompletedTweenCount == mTweens.Length)
-                    mTweenCompletedCallback?.Invoke();
+                if (++_completedTweenCount == _tweens.Length)
+                    _tweenCompletedCallback?.Invoke();
                 else
-                    mTweens[mCompletedTweenCount].Run();
+                    _tweens[_completedTweenCount].Run();
             }
         }
 
@@ -307,10 +307,10 @@ namespace SAS.TweenManagment
 
 	#endregion
 
-		public static bool IsRunning(GameObject tweenObject)
+		/*public static bool IsRunning(GameObject tweenObject)
 		{
 			return false;
-		}
+		}*/
 
         public static void PauseAll(bool state)
         {

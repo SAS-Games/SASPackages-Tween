@@ -74,40 +74,39 @@ namespace SAS.TweenManagment
 
         private void DoUpdate(in ITween tween, in TweenConfig param)
         {
-            if (tween.pState == TweenState.PAUSE || tween.pState == TweenState.NONE)
+            if (tween.State == TweenState.PAUSE || tween.State == TweenState.NONE)
                 return;
-            if (tween.pState == TweenState.DONE)
+            if (tween.State == TweenState.DONE)
             {
                 Remove(tween);
                 return;
             }
 
-            if (tween.pDelayCounter < param.pDelay)
+            if (tween.DelayCounter < param.Delay)
             {
-                tween.pDelayCounter += deltaTime;
+                tween.DelayCounter += deltaTime;
                 return;
             }
 
-            tween.pValue = Mathf.MoveTowards(tween.pValue, 1, deltaTime * param.pDelta);
-
-            if (param.pUseAnimationCurve)
-                mValue = param.pAnimationCurve.Evaluate(tween.pValue);
+            tween.Value = Mathf.MoveTowards(tween.Value, 1, deltaTime * param.Delta);
+            if (param.UseAnimationCurve)
+                mValue = param.AnimationCurve.Evaluate(tween.Value);
             else
-                mValue = param.pCustomAnimationCurve(0, 1, tween.pValue);
+                mValue = param.CustomAnimationCurve(0, 1, tween.Value);
 
-            tween.DoAnim(!tween.pDoInReverese ? mValue : 1 - mValue);
+            tween.DoAnim(!tween.DoInReverese ? mValue : 1 - mValue);
 
-            if (tween.pValue >= 1)
+            if (tween.Value >= 1)
             {
-                tween.pValue = 0;
-                tween.pDoInReverese = param.pPingPong ? !tween.pDoInReverese : tween.pDoInReverese;
-                ++tween.pCompletedLoopCount;
+                tween.Value = 0;
+                tween.DoInReverese = param.PingPong ? !tween.DoInReverese : tween.DoInReverese;
+                ++tween.CompletedLoopCount;
 
-                if (!(tween.pCompletedLoopCount != (param.pPingPong ? param.pLoopCount != 1 ? 2 * param.pLoopCount : 2 : param.pLoopCount)))
+                if (tween.StopOnceCurrentLoopCompleted || !(tween.CompletedLoopCount != (param.PingPong ? param.LoopCount != 1 ? 2 * param.LoopCount : 2 : param.LoopCount)))
                 {
-                    tween.pState = TweenState.DONE;
+                    tween.State = TweenState.DONE;
                     param.OnTweeningComplete?.Invoke();
-                    param.pOnTweenCompleteCallback?.Invoke(null);
+                    param.OnTweenCompleteCallback?.Invoke(null);
                     Remove(tween);
                 }
             }
