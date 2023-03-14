@@ -7,11 +7,21 @@ namespace SAS.TweenManagment
 {
     public struct Tween
     {
+        public static ITween Move(Transform tweenObject, Vector3 to, TweenConfig tweenConfig)
+        {
+            return Move(tweenObject, to, ref tweenConfig);
+        }
+
         public static ITween Move(Transform tweenObject, Vector3 to, ref TweenConfig tweenConfig)
         {
             ITween iTween = CreateTween(tweenObject.position, to, tweenObject.SetPosition, ref tweenConfig);
             iTween.Run();
             return iTween;
+        }
+
+        public static ITween MoveLocal(Transform tweenObject, Vector3 to, TweenConfig tweenConfig)
+        {
+            return MoveLocal(tweenObject, to, tweenConfig);
         }
 
         public static ITween MoveLocal(Transform tweenObject, Vector3 to, ref TweenConfig tweenConfig)
@@ -160,10 +170,10 @@ namespace SAS.TweenManagment
 
             #endregion
                 */
-        public static ITween Timer(float delay, OnAnimationCompleteCallback onDelayReachesCallback)
+        public static ITween Timer(float time, OnAnimationCompleteCallback onDelayReachesCallback)
         {
-            TweenConfig config = new TweenConfig(delay, timeBased: true, tweenCompleteCallback: onDelayReachesCallback);
-            ITween iTween = CreateTween(0, delay, null, ref config);
+            TweenConfig config = Having.Param.Duration(time).TweenCompleteCallback(onDelayReachesCallback); //new TweenConfig(delay, timeBased: true, tweenCompleteCallback: onDelayReachesCallback);
+            ITween iTween = CreateTween(0, time, null, ref config);
             iTween.Run();
             return iTween;
         }
@@ -306,12 +316,6 @@ namespace SAS.TweenManagment
 		}
 
 	#endregion
-
-		/*public static bool IsRunning(GameObject tweenObject)
-		{
-			return false;
-		}*/
-
         public static void PauseAll(bool state)
         {
             TweenRunner.Instance.enabled = !state;

@@ -116,8 +116,8 @@ namespace SAS.TweenManagment
         {
             for (int i = 0; i < mTweens.Length; ++i)
             {
-                if (mTweens[i]._Tween != null && mTweens[i]._Tween == tween)
-                    mTweens[i]._TweenConfig.AddCallback(callback);
+                if (mTweens[i]._Tween != null && mTweens[i]._Tween.Equals(tween))
+                    mTweens[i]._TweenConfig.TweenCompleteCallback(callback);
             }
         }
     }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 namespace SAS.TweenManagment
@@ -21,10 +19,6 @@ namespace SAS.TweenManagment
         private CustomCurve mCustomCurve;
         public OnAnimationCompleteCallback OnTweenCompleteCallback { get; private set; }
 
-        public void AddCallback(OnAnimationCompleteCallback callback)
-        {
-            OnTweenCompleteCallback += callback;
-        }
         public CustomCurve CustomAnimationCurve
         {
             get
@@ -45,20 +39,64 @@ namespace SAS.TweenManagment
         public bool IsTimeBased { get => m_IsTimeBased; }
         public float Delta { get; set; }
 
-        public TweenConfig(float durationOrSpeed = 1, bool timeBased = true, float delay = 0, int loopCount = 1, bool pingPong = false, EaseType easeType = EaseType.Linear, bool useAnimationCurve = false, AnimationCurve animationCurve = null, CustomCurve customCurve = null, OnAnimationCompleteCallback tweenCompleteCallback = null)
+        public TweenConfig Duration(float duration)
         {
-            m_IsTimeBased = timeBased;
-            m_DurationOrSpeed = durationOrSpeed;
-            m_Delay = delay;
-            m_LoopCount = loopCount;
-            m_PingPong = pingPong;
-            m_Type = easeType;
-            m_UseAnimationCurve = useAnimationCurve;
-            m_AnimationCurve = animationCurve;
-            OnTweeningComplete = null;
-            mCustomCurve = customCurve;
-            OnTweenCompleteCallback = tweenCompleteCallback;
-            Delta = 0;
+            m_IsTimeBased = true;
+            m_DurationOrSpeed = duration;
+            return this;
         }
+
+        public TweenConfig Speed(float duration)
+        {
+            if (!m_IsTimeBased)
+            {
+                m_DurationOrSpeed = duration;
+            }
+            else Debug.LogWarning("Tween Duration has already been set. Setting the speed will not have any effect");
+
+            return this;
+        }
+
+        public TweenConfig WithDelay(float delay)
+        {
+            m_Delay = delay;
+            return this;
+        }
+
+        public TweenConfig WithLoop(int loopConut)
+        {
+            m_LoopCount = loopConut;
+            return this;
+        }
+
+        public TweenConfig WithPingPong()
+        {
+            m_PingPong = true;
+            return this;
+        }
+
+        public TweenConfig SetEase(EaseType easeType)
+        {
+            m_Type = easeType;
+            return this;
+        }
+
+        public TweenConfig SetEase(AnimationCurve animationCurve)
+        {
+            m_UseAnimationCurve = true;
+            m_AnimationCurve = animationCurve;
+            return this;
+        }
+
+        public TweenConfig TweenCompleteCallback(OnAnimationCompleteCallback callback)
+        {
+            OnTweenCompleteCallback += callback;
+            return this;
+        }
+    }
+
+    public static class Having
+    {
+        public static TweenConfig Param = new TweenConfig();
     }
 }
