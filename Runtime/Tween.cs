@@ -21,7 +21,7 @@ namespace SAS.TweenManagment
 
         public static ITween MoveLocal(Transform tweenObject, Vector3 to, TweenConfig tweenConfig)
         {
-            return MoveLocal(tweenObject, to, tweenConfig);
+            return MoveLocal(tweenObject, to, ref tweenConfig);
         }
 
         public static ITween MoveLocal(Transform tweenObject, Vector3 to, ref TweenConfig tweenConfig)
