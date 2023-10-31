@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace SAS.TweenManagment
 {
@@ -104,6 +104,64 @@ namespace SAS.TweenManagment
             tweenConfig.Delta = GetDeltaMove(from, to, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
             ITween iTween = new Vector4Tween(from, to, onUpdate);
             TweenRunner.Add(iTween, tweenConfig);
+            return iTween;
+        }
+
+        public static ITween CubiceBazier(Transform tweenObject, Vector3 to, Vector3 cp1, Vector3 cp2, float duration)
+        {
+            return CubiceBazier(tweenObject, tweenObject.transform.position, to, cp1, cp2, duration);
+        }
+
+        public static ITween CubiceBazier(Transform tweenObject, Vector3 from, Vector3 to, Vector3 cp1, Vector3 cp2, float duration)
+        {
+            TweenConfig tweenConfig = new TweenConfig();
+            tweenConfig.Duration(duration);
+            ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, cp1, cp2, value); }, ref tweenConfig);
+            iTween.Run();
+            return iTween;
+        }
+
+        public static ITween CubiceBazier(Transform tweenObject, Vector2 to, Vector2 cp1, Vector2 cp2, float duration)
+        {
+            return CubiceBazier(tweenObject, (Vector2)tweenObject.transform.position, to, cp1, cp2, duration);
+        }
+
+        public static ITween CubiceBazier(Transform tweenObject, Vector2 from, Vector2 to, Vector2 cp1, Vector2 cp2, float duration)
+        {
+            TweenConfig tweenConfig = new TweenConfig();
+            tweenConfig.Duration(duration);
+            ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, cp1, cp2, value); }, ref tweenConfig);
+            iTween.Run();
+            return iTween;
+        }
+
+        public static ITween QuadraticBazier(Transform tweenObject, Vector3 to, Vector3 controlPoint, float duration)
+        {
+            return QuadraticBazier(tweenObject, tweenObject.transform.position, to, controlPoint, duration);
+
+        }
+
+        public static ITween QuadraticBazier(Transform tweenObject, Vector3 from, Vector3 to, Vector3 controlPoint, float duration)
+        {
+            TweenConfig tweenConfig = new TweenConfig();
+            tweenConfig.Duration(duration);
+            ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, controlPoint, value); }, ref tweenConfig);
+            iTween.Run();
+            return iTween;
+        }
+
+        public static ITween QuadraticBazier(Transform tweenObject, Vector2 to, Vector2 controlPoint, float duration)
+        {
+            return QuadraticBazier(tweenObject, (Vector2)tweenObject.transform.position, to, controlPoint, duration);
+
+        }
+
+        public static ITween QuadraticBazier(Transform tweenObject, Vector2 from, Vector2 to, Vector2 controlPoint, float duration)
+        {
+            TweenConfig tweenConfig = new TweenConfig();
+            tweenConfig.Duration(duration);
+            ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, controlPoint, value); }, ref tweenConfig);
+            iTween.Run();
             return iTween;
         }
 
@@ -250,75 +308,75 @@ namespace SAS.TweenManagment
         #region Helper
 
         public static CustomCurve GetCustomCurve(EaseType easeType)
-		{
-			switch (easeType)
-			{
-			case EaseType.Linear: return EaseCurve.Linear;
-			case EaseType.Spring: return EaseCurve.Spring;
-			case EaseType.EaseInQuad: return EaseCurve.EaseInQuad;
-			case EaseType.EaseOutQuad: return EaseCurve.EaseOutQuad;
-			case EaseType.EaseInOutQuad: return EaseCurve.EaseInOutQuad;
-			case EaseType.EaseInCubic: return EaseCurve.EaseInCubic;
-			case EaseType.EaseOutCubic: return EaseCurve.EaseOutCubic;
-			case EaseType.EaseInOutCubic: return EaseCurve.EaseInOutCubic;
-			case EaseType.EaseInQuart: return EaseCurve.EaseInQuart;
-			case EaseType.EaseOutQuart: return EaseCurve.EaseOutQuart;
-			case EaseType.EaseInOutQuart: return EaseCurve.EaseInOutQuart;
-			case EaseType.EaseInQuint: return EaseCurve.EaseInQuint;
-			case EaseType.EaseOutQuint: return EaseCurve.EaseOutQuint;
-			case EaseType.EaseInOutQuint: return EaseCurve.EaseInOutQuint;
-			case EaseType.EaseInSine: return EaseCurve.EaseInSine;
-			case EaseType.EaseOutSine: return EaseCurve.EaseOutSine;
-			case EaseType.EaseInOutSine: return EaseCurve.EaseInOutSine;
-			case EaseType.EaseInExpo: return EaseCurve.EaseInExpo;
-			case EaseType.EaseOutExpo: return EaseCurve.EaseOutExpo;
-			case EaseType.EaseInOutExpo: return EaseCurve.EaseInOutExpo;
-			case EaseType.EaseInCirc: return EaseCurve.EaseInCirc;
-			case EaseType.EaseOutCirc: return EaseCurve.EaseOutCirc;
-			case EaseType.EaseInOutCirc: return EaseCurve.EaseInOutCirc;
-			case EaseType.EaseInBounce: return EaseCurve.EaseInBounce;
-			case EaseType.EaseOutBounce: return EaseCurve.EaseOutBounce;
-			case EaseType.EaseInOutBounce: return EaseCurve.EaseInOutBounce;
-			case EaseType.EaseInBack: return EaseCurve.EaseInBack;
-			case EaseType.EaseOutBack: return EaseCurve.EaseOutBack;
-			case EaseType.EaseInOutBack: return EaseCurve.EaseInOutBack;
-			case EaseType.EaseInElastic: return EaseCurve.EaseInElastic;
-			case EaseType.EaseOutElastic: return EaseCurve.EaseOutElastic;
-			case EaseType.EaseInOutElastic: return EaseCurve.EaseInOutElastic;
-			default: return EaseCurve.Linear;
+        {
+            switch (easeType)
+            {
+                case EaseType.Linear: return EaseCurve.Linear;
+                case EaseType.Spring: return EaseCurve.Spring;
+                case EaseType.EaseInQuad: return EaseCurve.EaseInQuad;
+                case EaseType.EaseOutQuad: return EaseCurve.EaseOutQuad;
+                case EaseType.EaseInOutQuad: return EaseCurve.EaseInOutQuad;
+                case EaseType.EaseInCubic: return EaseCurve.EaseInCubic;
+                case EaseType.EaseOutCubic: return EaseCurve.EaseOutCubic;
+                case EaseType.EaseInOutCubic: return EaseCurve.EaseInOutCubic;
+                case EaseType.EaseInQuart: return EaseCurve.EaseInQuart;
+                case EaseType.EaseOutQuart: return EaseCurve.EaseOutQuart;
+                case EaseType.EaseInOutQuart: return EaseCurve.EaseInOutQuart;
+                case EaseType.EaseInQuint: return EaseCurve.EaseInQuint;
+                case EaseType.EaseOutQuint: return EaseCurve.EaseOutQuint;
+                case EaseType.EaseInOutQuint: return EaseCurve.EaseInOutQuint;
+                case EaseType.EaseInSine: return EaseCurve.EaseInSine;
+                case EaseType.EaseOutSine: return EaseCurve.EaseOutSine;
+                case EaseType.EaseInOutSine: return EaseCurve.EaseInOutSine;
+                case EaseType.EaseInExpo: return EaseCurve.EaseInExpo;
+                case EaseType.EaseOutExpo: return EaseCurve.EaseOutExpo;
+                case EaseType.EaseInOutExpo: return EaseCurve.EaseInOutExpo;
+                case EaseType.EaseInCirc: return EaseCurve.EaseInCirc;
+                case EaseType.EaseOutCirc: return EaseCurve.EaseOutCirc;
+                case EaseType.EaseInOutCirc: return EaseCurve.EaseInOutCirc;
+                case EaseType.EaseInBounce: return EaseCurve.EaseInBounce;
+                case EaseType.EaseOutBounce: return EaseCurve.EaseOutBounce;
+                case EaseType.EaseInOutBounce: return EaseCurve.EaseInOutBounce;
+                case EaseType.EaseInBack: return EaseCurve.EaseInBack;
+                case EaseType.EaseOutBack: return EaseCurve.EaseOutBack;
+                case EaseType.EaseInOutBack: return EaseCurve.EaseInOutBack;
+                case EaseType.EaseInElastic: return EaseCurve.EaseInElastic;
+                case EaseType.EaseOutElastic: return EaseCurve.EaseOutElastic;
+                case EaseType.EaseInOutElastic: return EaseCurve.EaseInOutElastic;
+                default: return EaseCurve.Linear;
 
-			}
-		}
+            }
+        }
 
-		private static float GetDeltaMove(Vector2 from, Vector2 to, float factor ,bool isTimeDepndent)
-		{
-			return _ = (isTimeDepndent ? 1 / factor : factor / Vector2.Distance(from, to));
-		}
+        private static float GetDeltaMove(Vector2 from, Vector2 to, float factor, bool isTimeDepndent)
+        {
+            return _ = (isTimeDepndent ? 1 / factor : factor / Vector2.Distance(from, to));
+        }
 
-		private static float GetDeltaMove(Vector3 from, Vector3 to, float factor ,bool isTimeDepndent)
-		{
-			return _ = (isTimeDepndent ? 1 / factor : factor / Vector3.Distance(from, to));
-		}
+        private static float GetDeltaMove(Vector3 from, Vector3 to, float factor, bool isTimeDepndent)
+        {
+            return _ = (isTimeDepndent ? 1 / factor : factor / Vector3.Distance(from, to));
+        }
 
-		private static float GetDeltaMove(Vector4 from, Vector4 to, float factor ,bool isTimeDepndent)
-		{
-			return factor = (isTimeDepndent ? 1 / factor : factor / Vector4.Distance(from, to));
-		}
+        private static float GetDeltaMove(Vector4 from, Vector4 to, float factor, bool isTimeDepndent)
+        {
+            return factor = (isTimeDepndent ? 1 / factor : factor / Vector4.Distance(from, to));
+        }
 
         private static float GetDeltaMove(Quaternion from, Quaternion to, float factor, bool isTimeDepndent)
         {
             return factor = (isTimeDepndent ? 1 / factor : factor / Vector4.Distance(new Vector4(from.x, from.y, from.z, from.w), new Vector4(to.x, to.y, to.z, to.w)));
         }
 
-        private static float GetDeltaMove(float from, float to, float factor ,bool isTimeDepndent)
-		{
-			return factor = (isTimeDepndent ? 1 / factor : factor / Mathf.Abs(from - to));
-		}
+        private static float GetDeltaMove(float from, float to, float factor, bool isTimeDepndent)
+        {
+            return factor = (isTimeDepndent ? 1 / factor : factor / Mathf.Abs(from - to));
+        }
 
-	#endregion
+        #endregion
         public static void PauseAll(bool state)
         {
             TweenRunner.Instance.enabled = !state;
         }
-	}
+    }
 }
