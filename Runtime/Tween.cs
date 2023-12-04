@@ -31,6 +31,11 @@ namespace SAS.TweenManagment
             return iTween;
         }
 
+        public static ITween Scale(Transform tweenObject, Vector3 to, TweenConfig tweenConfig)
+        {
+            return Scale(tweenObject, to, ref tweenConfig);
+        }
+
         public static ITween Scale(Transform tweenObject, Vector3 to, ref TweenConfig tweenConfig)
         {
             ITween iTween = CreateTween(tweenObject.localScale, to, tweenObject.SetLocalScale, ref tweenConfig);
@@ -73,6 +78,23 @@ namespace SAS.TweenManagment
             ITween iTween = CreateTween(color, to, graphic.SetColor, ref tweenConfig);
             iTween.Run();
             return iTween;
+        }
+
+        public static ITween Alpha(CanvasGroup canvasGroup, float to, TweenConfig tweenConfig)
+        {
+            return Alpha(canvasGroup, to, ref tweenConfig);
+        }
+
+        public static ITween Alpha(CanvasGroup canvasGroup, float to, ref TweenConfig tweenConfig)
+        {
+            ITween iTween = CreateTween(canvasGroup.alpha, to, canvasGroup.SetAlpha, ref tweenConfig);
+            iTween.Run();
+            return iTween;
+        }
+
+        private static ITween CreateTween(float alpha, float to, object setAlpha, ref TweenConfig tweenConfig)
+        {
+            throw new NotImplementedException();
         }
 
         public static ITween CreateTween(float from, float to, Action<float> onUpdate, ref TweenConfig tweenConfig)
