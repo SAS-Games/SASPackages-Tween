@@ -1,102 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace SAS.TweenManagment
 {
-    public struct Tween
+    public partial struct Tween
     {
-        public static ITween Move(Transform tweenObject, Vector3 to, TweenConfig tweenConfig)
-        {
-            return Move(tweenObject, to, ref tweenConfig);
-        }
-
-        public static ITween Move(Transform tweenObject, Vector3 to, ref TweenConfig tweenConfig)
-        {
-            ITween iTween = CreateTween(tweenObject.position, to, tweenObject.SetPosition, ref tweenConfig);
-            iTween.Run();
-            return iTween;
-        }
-
-        public static ITween MoveLocal(Transform tweenObject, Vector3 to, TweenConfig tweenConfig)
-        {
-            return MoveLocal(tweenObject, to, ref tweenConfig);
-        }
-
-        public static ITween MoveLocal(Transform tweenObject, Vector3 to, ref TweenConfig tweenConfig)
-        {
-            ITween iTween = CreateTween(tweenObject.localPosition, to, tweenObject.SetLocalPosition, ref tweenConfig);
-            iTween.Run();
-            return iTween;
-        }
-
-        public static ITween Scale(Transform tweenObject, Vector3 to, TweenConfig tweenConfig)
-        {
-            return Scale(tweenObject, to, ref tweenConfig);
-        }
-
-        public static ITween Scale(Transform tweenObject, Vector3 to, ref TweenConfig tweenConfig)
-        {
-            ITween iTween = CreateTween(tweenObject.localScale, to, tweenObject.SetLocalScale, ref tweenConfig);
-            iTween.Run();
-            return iTween;
-        }
-
-        public static ITween Scale(Transform tweenObject, Vector2 to, ref TweenConfig tweenConfig)
-        {
-            ITween iTween = CreateTween((Vector2)tweenObject.localScale, to, tweenObject.SetLocalScale, ref tweenConfig);
-            iTween.Run();
-            return iTween;
-        }
-
-        public static ITween EulerAngles(Transform tweenObject, Vector3 to, ref TweenConfig tweenConfig)
-        {
-            ITween iTween = CreateTween(tweenObject.eulerAngles, to, tweenObject.SetEulerAngles, ref tweenConfig);
-            iTween.Run();
-            return iTween;
-        }
-
-        public static ITween LocalEulerAngles(Transform tweenObject, Vector3 to, ref TweenConfig tweenConfig)
-        {
-            ITween iTween = CreateTween(tweenObject.localEulerAngles, to, tweenObject.SetLocalEulerAngles, ref tweenConfig);
-            iTween.Run();
-            return iTween;
-        }
-
-        public static ITween Color(Renderer renderer, Color to, ref TweenConfig tweenConfig)
-        {
-            Color color = renderer.material.color;
-            ITween iTween = CreateTween(color, to, renderer.SetColor, ref tweenConfig);
-            iTween.Run();
-            return iTween;
-        }
-
-        public static ITween Color(Graphic graphic, Color to, ref TweenConfig tweenConfig)
-        {
-            Color color = graphic.color;
-            ITween iTween = CreateTween(color, to, graphic.SetColor, ref tweenConfig);
-            iTween.Run();
-            return iTween;
-        }
-
-        public static ITween Alpha(CanvasGroup canvasGroup, float to, TweenConfig tweenConfig)
-        {
-            return Alpha(canvasGroup, to, ref tweenConfig);
-        }
-
-        public static ITween Alpha(CanvasGroup canvasGroup, float to, ref TweenConfig tweenConfig)
-        {
-            ITween iTween = CreateTween(canvasGroup.alpha, to, canvasGroup.SetAlpha, ref tweenConfig);
-            iTween.Run();
-            return iTween;
-        }
-
-        private static ITween CreateTween(float alpha, float to, object setAlpha, ref TweenConfig tweenConfig)
-        {
-            throw new NotImplementedException();
-        }
-
         public static ITween CreateTween(float from, float to, Action<float> onUpdate, ref TweenConfig tweenConfig)
         {
             tweenConfig.Delta = GetDeltaMove(from, to, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
@@ -160,7 +69,6 @@ namespace SAS.TweenManagment
         public static ITween QuadraticBazier(Transform tweenObject, Vector3 to, Vector3 controlPoint, float duration)
         {
             return QuadraticBazier(tweenObject, tweenObject.transform.position, to, controlPoint, duration);
-
         }
 
         public static ITween QuadraticBazier(Transform tweenObject, Vector3 from, Vector3 to, Vector3 controlPoint, float duration)
@@ -175,7 +83,6 @@ namespace SAS.TweenManagment
         public static ITween QuadraticBazier(Transform tweenObject, Vector2 to, Vector2 controlPoint, float duration)
         {
             return QuadraticBazier(tweenObject, (Vector2)tweenObject.transform.position, to, controlPoint, duration);
-
         }
 
         public static ITween QuadraticBazier(Transform tweenObject, Vector2 from, Vector2 to, Vector2 controlPoint, float duration)
