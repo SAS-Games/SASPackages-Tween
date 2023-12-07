@@ -7,5 +7,10 @@ namespace SAS.TweenManagment
             base.Play(ontweenCompleted);
             Tween.Scale(_transform, m_from, m_To, m_ParamConfig.value);
         }
+
+        protected override void Reset()
+        {
+            _transform.SetLocalScale(m_from);
+        }
     }
 }

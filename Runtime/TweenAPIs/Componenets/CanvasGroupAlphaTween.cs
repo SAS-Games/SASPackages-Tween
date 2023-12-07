@@ -2,14 +2,18 @@ using UnityEngine;
 
 namespace SAS.TweenManagment
 {
-    sealed class CanvasGroupAlphaTween : TweenMonoBase
+    [RequireComponent(typeof(CanvasGroup))]
+    sealed class CanvasGroupAlphaTween : V1TweenMonoBase
     {
-        [SerializeField] float m_Alpha = 1;
-
         public override void Play(OnAnimationCompleteCallback ontweenCompleted)
         {
             base.Play(ontweenCompleted);
-            Tween.Alpha(_transform.GetComponent<CanvasGroup>(), m_Alpha, m_ParamConfig.value);
+            Tween.Alpha(_transform.GetComponent<CanvasGroup>(), m_from, m_To, m_ParamConfig.value);
+        }
+
+        protected override void Reset()
+        {
+            _transform.GetComponent<CanvasGroup>().SetAlpha(m_from);
         }
     }
 }

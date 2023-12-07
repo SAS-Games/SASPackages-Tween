@@ -28,7 +28,17 @@ namespace SAS.TweenManagment
 
         public static ITween Alpha(CanvasGroup canvasGroup, float to, ref TweenConfig tweenConfig)
         {
-            ITween iTween = CreateTween(canvasGroup.alpha, to, canvasGroup.SetAlpha, ref tweenConfig);
+            return Alpha(canvasGroup, canvasGroup.alpha, to, ref tweenConfig);
+        }
+
+        public static ITween Alpha(CanvasGroup canvasGroup, float from, float to, TweenConfig tweenConfig)
+        {
+            return Alpha(canvasGroup, from, to, ref tweenConfig);
+        }
+
+        public static ITween Alpha(CanvasGroup canvasGroup, float from, float to, ref TweenConfig tweenConfig)
+        {
+            ITween iTween = CreateTween(from, to, canvasGroup.SetAlpha, ref tweenConfig);
             iTween.Run();
             return iTween;
         }
