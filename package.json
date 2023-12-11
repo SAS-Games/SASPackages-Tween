@@ -1,6 +1,6 @@
 {
   "name": "com.sas.tweenmanagement",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "displayName": "SAS Tween Management",
   "unity": "2019.1",
   "dependencies": {
