@@ -11,6 +11,7 @@ namespace SAS.TweenManagment
 
 
         protected Transform _transform;
+        protected ITween _tween;
 
         void OnEnable()
         {
@@ -28,6 +29,12 @@ namespace SAS.TweenManagment
         public void Play()
         {
             Play(_ => OnCompleteEvent?.Invoke());
+        }
+
+        void OnDestroy()
+        {
+            _tween.Stop(false);
+            _transform = null;
         }
 
     }
