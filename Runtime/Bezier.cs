@@ -30,7 +30,7 @@ namespace SAS.TweenManagment
             return p;
         }
 
-        public static Vector3 QuadraticPoint(Vector3 from, Vector3 controlPoint, Vector3 to, float t)
+        public static Vector3 QuadraticPoint(Vector3 from, Vector3 to, Vector3 controlPoint, float t)
         {
             float u = 1 - t;
             float tt = t * t;
@@ -41,7 +41,7 @@ namespace SAS.TweenManagment
             return p;
         }
 
-        public static Vector2 QuadraticPoint(Vector2 from, Vector2 controlPoint, Vector2 to, float t)
+        public static Vector2 QuadraticPoint(Vector2 from, Vector2 to, Vector2 controlPoint, float t)
         {
             float u = 1 - t;
             float tt = t * t;
