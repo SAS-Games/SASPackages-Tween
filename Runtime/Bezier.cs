@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     public static class Bezier
     {

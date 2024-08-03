@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     public class TweenAwaiter : INotifyCompletion
     {
@@ -13,10 +13,20 @@ namespace SAS.TweenManagment
         {
             _itween = itween;
             _isCompleted = false;
-            TweenRunner.Instance.AddCallback(_itween, ele =>
+            if (itween.Tick == Tick.UPDATE)
             {
-                IsCompleted = _itween.State == TweenState.DONE;
-            });
+                TweenRunnerUpdate.Instance.AddCallback(_itween, ele =>
+                {
+                    IsCompleted = _itween.State == TweenState.DONE;
+                });
+            }
+            else if (itween.Tick == Tick.FIXEDUPDATE)
+            {
+                TweenRunnerFixedUpdate.Instance.AddCallback(_itween, ele =>
+                {
+                    IsCompleted = _itween.State == TweenState.DONE;
+                });
+            }
         }
 
         public bool IsCompleted

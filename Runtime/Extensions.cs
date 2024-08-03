@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     public static class Extensions
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     internal abstract class TweenMonoBase : MonoBehaviour, ITweenComponent
     {

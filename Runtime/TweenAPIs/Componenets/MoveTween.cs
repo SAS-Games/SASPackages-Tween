@@ -1,4 +1,4 @@
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     sealed class MoveTween : V3TweenMonoBase
     {

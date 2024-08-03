@@ -1,4 +1,4 @@
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     sealed class Scale2DTween : V2TweenMonoBase
     {

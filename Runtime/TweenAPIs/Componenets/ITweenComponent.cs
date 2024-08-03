@@ -1,4 +1,4 @@
-﻿namespace SAS.TweenManagment
+﻿namespace SAS.TweenManagement
 {
     public interface ITweenComponent
     {

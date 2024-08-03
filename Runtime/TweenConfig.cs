@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     [System.Serializable]
     public struct TweenConfig
@@ -14,6 +14,7 @@ namespace SAS.TweenManagment
         [SerializeField] private EaseType m_Type;
         [SerializeField] private bool m_UseAnimationCurve;
         [SerializeField] private AnimationCurve m_AnimationCurve;
+        [SerializeField] private Tick m_Tick;
 
         public UnityEvent OnTweeningComplete;
         private CustomCurve mCustomCurve;
@@ -34,6 +35,7 @@ namespace SAS.TweenManagment
         public int LoopCount { get => m_LoopCount == 0 ? 1 : m_LoopCount; }
         public bool PingPong { get => m_PingPong; }
         public EaseType EaseType { get => m_Type; }
+        public Tick Tick { get => m_Tick; }
         public bool UseAnimationCurve { get => m_UseAnimationCurve; }
         public AnimationCurve AnimationCurve { get => m_AnimationCurve; }
         public bool IsTimeBased { get => m_IsTimeBased; }
@@ -63,9 +65,9 @@ namespace SAS.TweenManagment
             return this;
         }
 
-        public TweenConfig WithLoop(int loopConut)
+        public TweenConfig WithLoop(int loopCount)
         {
-            m_LoopCount = loopConut;
+            m_LoopCount = loopCount;
             return this;
         }
 
@@ -78,6 +80,12 @@ namespace SAS.TweenManagment
         public TweenConfig SetEase(EaseType easeType)
         {
             m_Type = easeType;
+            return this;
+        }
+
+        public TweenConfig UseTick(Tick type)
+        {
+            m_Tick = type;
             return this;
         }
 

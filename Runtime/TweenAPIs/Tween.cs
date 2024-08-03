@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     public partial struct Tween
     {
@@ -187,7 +187,7 @@ namespace SAS.TweenManagment
             {
                 for (int i = 0; i < _tweens.Length; ++i)
                 {
-                    TweenRunner.Instance.AddCallback(_tweens[i], fun => OnTweenComplete());
+                    TweenRunner.AddCallback(_tweens[i], fun => OnTweenComplete());
                     _tweens[i].Run();
                 }
             }
@@ -217,7 +217,7 @@ namespace SAS.TweenManagment
             public void Run()
             {
                 for (int i = 0; i < _tweens.Length; ++i)
-                    TweenRunner.Instance.AddCallback(_tweens[i], fun => OnTweenComplete());
+                    TweenRunner.AddCallback(_tweens[i], fun => OnTweenComplete());
                 _tweens[_completedTweenCount].Run();
             }
 
@@ -301,7 +301,7 @@ namespace SAS.TweenManagment
         #endregion
         public static void PauseAll(bool state)
         {
-            TweenRunner.Instance.enabled = !state;
+            TweenRunner.PauseAll(state);
         }
     }
 }

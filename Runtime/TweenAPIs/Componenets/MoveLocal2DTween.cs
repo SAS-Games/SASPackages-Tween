@@ -1,4 +1,4 @@
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     sealed class MoveLocal2DTween : V2TweenMonoBase
     {

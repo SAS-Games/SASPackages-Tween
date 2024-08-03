@@ -1,4 +1,4 @@
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     sealed class EulerAnglesTween : V3TweenMonoBase
     {

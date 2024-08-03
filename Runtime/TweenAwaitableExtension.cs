@@ -1,5 +1,5 @@
 ﻿
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     public static class TweenAwaitableExtension
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     [RequireComponent(typeof(CanvasGroup))]
     sealed class CanvasGroupAlphaTween : V1TweenMonoBase

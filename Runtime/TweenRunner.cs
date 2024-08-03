@@ -1,35 +1,63 @@
-﻿using UnityEngine;
+﻿using SAS.Utilities;
 using System;
-using SAS.Utilities;
+using UnityEngine;
 
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
-    internal sealed class TweenRunner : AutoInstantiateSingleton<TweenRunner>
+    internal class TweenRunner
     {
-        struct TweenArray
+        internal static void Add(in ITween tween, in TweenConfig tweenConfig)
         {
-            public ITween _Tween;
-            public TweenConfig _TweenConfig;
-            public TweenArray(in ITween tween, in TweenConfig tweenConfig)
+            tween.Tick = tweenConfig.Tick;
+            if (tween.Tick == Tick.UPDATE)
             {
-                _Tween = tween;
-                _TweenConfig = tweenConfig;
+                var instance = TweenRunnerUpdate.Instance;
+                instance.EnsureCapacity();
+                instance.mTweens[instance.mSize++] = new TweenArray(tween, tweenConfig);
+            }
+            else if (tweenConfig.Tick == Tick.FIXEDUPDATE)
+            {
+                var instance = TweenRunnerFixedUpdate.Instance;
+                instance.EnsureCapacity();
+                instance.mTweens[instance.mSize++] = new TweenArray(tween, tweenConfig);
             }
         }
 
-        private float mValue = 0;
-        private ushort mSize = 0;
-        private ushort mCapacity = 4;
-
-        private TweenArray[] mTweens = new TweenArray[4];
-
-        internal static void Add(in ITween tween, in TweenConfig tweenConfig)
+        internal static void PauseAll(bool state)
         {
-            Instance.EnsureCapacity();
-            Instance.mTweens[Instance.mSize++] = new TweenArray(tween, tweenConfig);
+            TweenRunnerUpdate.Instance.enabled = !state;
+            TweenRunnerFixedUpdate.Instance.enabled = !state;
         }
 
-        private void EnsureCapacity()
+        internal static void AddCallback(in ITween tween, OnAnimationCompleteCallback callback)
+        {
+            if (tween.Tick == Tick.UPDATE)
+                TweenRunnerUpdate.Instance.AddCallback(tween, callback);
+            else if (tween.Tick == Tick.FIXEDUPDATE)
+                TweenRunnerFixedUpdate.Instance.AddCallback(tween, callback);
+        }
+    }
+    internal struct TweenArray
+    {
+        public ITween _Tween;
+        public TweenConfig _TweenConfig;
+        public TweenArray(in ITween tween, in TweenConfig tweenConfig)
+        {
+            _Tween = tween;
+            _TweenConfig = tweenConfig;
+        }
+    }
+
+    internal class TweenRunnerTick<T> : AutoInstantiateSingleton<T> where T : MonoBehaviour
+    {
+        internal protected ushort mSize = 0;
+        internal protected float deltaTime = 0;
+        private float mValue = 0;
+        private ushort mCapacity = 4;
+
+        internal protected TweenArray[] mTweens = new TweenArray[4];
+
+        internal void EnsureCapacity()
         {
             if (mSize >= mCapacity)
             {
@@ -43,7 +71,7 @@ namespace SAS.TweenManagment
 
         private void Remove(in ITween tween)
         {
-            ushort index = IndexOf(mTweens,  tween);
+            ushort index = IndexOf(mTweens, tween);
             if (index >= 0)
             {
                 --mSize;
@@ -63,16 +91,7 @@ namespace SAS.TweenManagment
             return ushort.MaxValue;
         }
 
-
-        float deltaTime = 0;
-        private void Update()
-        {
-            deltaTime = Time.deltaTime;
-            for (int i = 0; i < mSize; ++i)
-                DoUpdate(mTweens[i]._Tween, mTweens[i]._TweenConfig);
-        }
-
-        private void DoUpdate(in ITween tween, in TweenConfig param)
+        protected void DoUpdate(in ITween tween, in TweenConfig param)
         {
             if (tween.State == TweenState.PAUSE || tween.State == TweenState.NONE)
                 return;

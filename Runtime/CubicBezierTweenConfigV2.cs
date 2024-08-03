@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     [CreateAssetMenu(menuName = "SAS/ScriptableTypes/ReadOnly/CubicBezierTweenConfigV2")]
 

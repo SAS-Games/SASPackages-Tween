@@ -1,4 +1,4 @@
-using SAS.TweenManagment;
+using SAS.TweenManagement;
 using UnityEngine;
 
 abstract class V1TweenMonoBase : TweenMonoBase

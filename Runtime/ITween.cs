@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
 	public delegate float CustomCurve(float start, float end, float val);
 	public delegate void OnAnimationCompleteCallback(object o);
@@ -13,6 +13,12 @@ namespace SAS.TweenManagment
 		DONE
 	}
 
+    public enum Tick
+    {
+        FIXEDUPDATE,
+        UPDATE,
+    }
+
 
     public interface ITween
     {
@@ -22,6 +28,7 @@ namespace SAS.TweenManagment
         bool StopOnceCurrentLoopCompleted { get; set; }
         short CompletedLoopCount { get; set; }
         float Value { get; set; }
+        Tick Tick { get; set; }
         void DoAnim(float val);
         void Run();
         void Pause();

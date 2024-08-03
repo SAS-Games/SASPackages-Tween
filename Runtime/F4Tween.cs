@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SAS.TweenManagment
+namespace SAS.TweenManagement
 {
     public struct Vector4Tween : ITween
     {
@@ -11,6 +11,7 @@ namespace SAS.TweenManagment
         short ITween.CompletedLoopCount { get; set; }
         float ITween.Value { get; set; }
         public TweenState State { get; set; }
+        public Tick Tick { get; set; }
 
         private Action<Vector4> mOnUpdate { get; set; }
 
