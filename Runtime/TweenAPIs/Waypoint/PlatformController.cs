@@ -18,9 +18,10 @@ namespace SAS.TweenManagement.Waypoints
         [SerializeField] private EaseType m_EaseType = default;
 
 
-        [SerializeField] private float m_Speed = 3f; // Speed of movement
-        [SerializeField] private bool m_MoveTowardsPath = true;
         [SerializeField] private Transform m_Platform;
+        [SerializeField] private float m_Speed = 3f; // Speed of movement
+        [SerializeField] private float m_delay = 0.2f;
+        [SerializeField] private bool m_MoveTowardsPath = true;
         [SerializeField] private bool m_LocalSpace = true;
         [SerializeField] private Tick m_Tick;
 
@@ -46,7 +47,7 @@ namespace SAS.TweenManagement.Waypoints
                 else
                     m_Platform.position = position;
             }
-            _config = Having.Param.Speed(m_Speed).SetEase(m_EaseType).UseTick(m_Tick);
+            _config = Having.Param.Speed(m_Speed).WithDelay(m_delay).SetEase(m_EaseType).UseTick(m_Tick);
             _ = MoveAsync(_currentPointIndex.Current);
 
         }
@@ -81,6 +82,16 @@ namespace SAS.TweenManagement.Waypoints
         private void OnDestroy()
         {
             _tween.Stop(false);
+        }
+
+        private void HandleOnTriggerEnter(Collider other)
+        {
+            other.transform.SetParent(m_Platform,true);
+        }
+
+        private void HandleOnTriggerExit(Collider other)
+        {
+            other.transform.SetParent(null);
         }
     }
 }
