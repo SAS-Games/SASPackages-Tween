@@ -38,12 +38,12 @@ namespace SAS.TweenManagement
             return iTween;
         }
 
-        public static ITween CubiceBezier(Transform tweenObject, Vector3 to, Vector3 cp1, Vector3 cp2, float duration, OnAnimationCompleteCallback callback)
+        public static ITween CubicBezier(Transform tweenObject, Vector3 to, Vector3 cp1, Vector3 cp2, float duration, OnAnimationCompleteCallback callback)
         {
-            return CubiceBezier(tweenObject, tweenObject.transform.position, to, cp1, cp2, duration, callback);
+            return CubicBezier(tweenObject, tweenObject.transform.position, to, cp1, cp2, duration, callback);
         }
 
-        public static ITween CubiceBezier(Transform tweenObject, Vector3 from, Vector3 to, Vector3 cp1, Vector3 cp2, float duration, OnAnimationCompleteCallback callback)
+        public static ITween CubicBezier(Transform tweenObject, Vector3 from, Vector3 to, Vector3 cp1, Vector3 cp2, float duration, OnAnimationCompleteCallback callback)
         {
             TweenConfig tweenConfig = Having.Param.Duration(duration).TweenCompleteCallback(callback);
             ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, cp1, cp2, value); }, ref tweenConfig);
@@ -51,12 +51,12 @@ namespace SAS.TweenManagement
             return iTween;
         }
 
-        public static ITween CubiceBezier(Transform tweenObject, Vector2 to, Vector2 cp1, Vector2 cp2, float duration, OnAnimationCompleteCallback callback)
+        public static ITween CubicBezier(Transform tweenObject, Vector2 to, Vector2 cp1, Vector2 cp2, float duration, OnAnimationCompleteCallback callback)
         {
-            return CubiceBezier(tweenObject, (Vector2)tweenObject.transform.position, to, cp1, cp2, duration, callback);
+            return CubicBezier(tweenObject, (Vector2)tweenObject.transform.position, to, cp1, cp2, duration, callback);
         }
 
-        public static ITween CubiceBezier(Transform tweenObject, Vector2 from, Vector2 to, Vector2 cp1, Vector2 cp2, float duration, OnAnimationCompleteCallback callback)
+        public static ITween CubicBezier(Transform tweenObject, Vector2 from, Vector2 to, Vector2 cp1, Vector2 cp2, float duration, OnAnimationCompleteCallback callback)
         {
             TweenConfig tweenConfig = Having.Param.Duration(duration).TweenCompleteCallback(callback);
             ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, cp1, cp2, value); }, ref tweenConfig);

@@ -110,5 +110,10 @@ namespace SAS.TweenManagement
         {
             uiText.text = text;
         }
+
+        public static void SetPosition(this Rigidbody rigidbody, Vector3 position)
+        {
+            rigidbody.MovePosition(position);
+        }
     }
 }

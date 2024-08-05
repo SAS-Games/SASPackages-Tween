@@ -47,5 +47,23 @@ namespace SAS.TweenManagement
             iTween.Run();
             return iTween;
         }
+
+
+        public static ITween RigidbodyMove(Rigidbody tweenObject, Vector3 to, ref TweenConfig tweenConfig)
+        {
+            return RigidbodyMove(tweenObject, tweenObject.position, to, ref tweenConfig);
+        }
+
+        public static ITween RigidbodyMove(Rigidbody tweenObject, Vector3 from, Vector3 to, TweenConfig tweenConfig)
+        {
+            return RigidbodyMove(tweenObject, from, to, ref tweenConfig);
+        }
+
+        public static ITween RigidbodyMove(Rigidbody tweenObject, Vector3 from, Vector3 to, ref TweenConfig tweenConfig)
+        {
+            ITween iTween = CreateTween(from, to, tweenObject.SetPosition, ref tweenConfig);
+            iTween.Run();
+            return iTween;
+        }
     }
 }
