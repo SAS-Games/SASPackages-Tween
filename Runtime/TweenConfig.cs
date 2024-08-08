@@ -102,9 +102,4 @@ namespace SAS.TweenManagement
             return this;
         }
     }
-
-    public static class Having
-    {
-        public static TweenConfig Param = new TweenConfig();
-    }
 }

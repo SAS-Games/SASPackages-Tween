@@ -113,12 +113,12 @@ namespace SAS.TweenManagement
             else
                 mValue = param.CustomAnimationCurve(0, 1, tween.Value);
 
-            tween.DoAnim(!tween.DoInReverese ? mValue : 1 - mValue);
+            tween.DoAnim(!tween.DoInReverse ? mValue : 1 - mValue);
 
             if (tween.Value >= 1)
             {
                 tween.Value = 0;
-                tween.DoInReverese = param.PingPong ? !tween.DoInReverese : tween.DoInReverese;
+                tween.DoInReverse = param.PingPong ? !tween.DoInReverse : tween.DoInReverse;
                 ++tween.CompletedLoopCount;
 
                 if (tween.StopOnceCurrentLoopCompleted || !(tween.CompletedLoopCount != (param.PingPong ? param.LoopCount != 1 ? 2 * param.LoopCount : 2 : param.LoopCount)))

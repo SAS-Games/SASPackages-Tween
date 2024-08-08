@@ -45,7 +45,7 @@ namespace SAS.TweenManagement
 
         public static ITween CubicBezier(Transform tweenObject, Vector3 from, Vector3 to, Vector3 cp1, Vector3 cp2, float duration, OnAnimationCompleteCallback callback)
         {
-            TweenConfig tweenConfig = Having.Param.Duration(duration).TweenCompleteCallback(callback);
+            TweenConfig tweenConfig = new TweenConfig().Duration(duration).TweenCompleteCallback(callback);
             ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, cp1, cp2, value); }, ref tweenConfig);
             iTween.Run();
             return iTween;
@@ -58,7 +58,7 @@ namespace SAS.TweenManagement
 
         public static ITween CubicBezier(Transform tweenObject, Vector2 from, Vector2 to, Vector2 cp1, Vector2 cp2, float duration, OnAnimationCompleteCallback callback)
         {
-            TweenConfig tweenConfig = Having.Param.Duration(duration).TweenCompleteCallback(callback);
+            TweenConfig tweenConfig = new TweenConfig().Duration(duration).TweenCompleteCallback(callback);
             ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, cp1, cp2, value); }, ref tweenConfig);
             iTween.Run();
             return iTween;
@@ -71,7 +71,7 @@ namespace SAS.TweenManagement
 
         public static ITween QuadraticBezier(Transform tweenObject, Vector3 from, Vector3 to, Vector3 controlPoint, float duration, OnAnimationCompleteCallback callback)
         {
-            TweenConfig tweenConfig = Having.Param.Duration(duration).TweenCompleteCallback(callback);
+            TweenConfig tweenConfig = new TweenConfig().Duration(duration).TweenCompleteCallback(callback);
             ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, controlPoint, value); }, ref tweenConfig);
             iTween.Run();
             return iTween;
@@ -84,7 +84,7 @@ namespace SAS.TweenManagement
 
         public static ITween QuadraticBezier(Transform tweenObject, Vector2 from, Vector2 to, Vector2 controlPoint, float duration, OnAnimationCompleteCallback callback)
         {
-            TweenConfig tweenConfig = Having.Param.Duration(duration).TweenCompleteCallback(callback);
+            TweenConfig tweenConfig = new TweenConfig().Duration(duration).TweenCompleteCallback(callback);
             ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, controlPoint, value); }, ref tweenConfig);
             iTween.Run();
             return iTween;
@@ -155,7 +155,7 @@ namespace SAS.TweenManagement
                 */
         public static ITween Timer(float time, OnAnimationCompleteCallback onDelayReachesCallback)
         {
-            TweenConfig config = Having.Param.Duration(time).TweenCompleteCallback(onDelayReachesCallback); //new TweenConfig(delay, timeBased: true, tweenCompleteCallback: onDelayReachesCallback);
+            TweenConfig config = new TweenConfig().Duration(time).TweenCompleteCallback(onDelayReachesCallback); //new TweenConfig(delay, timeBased: true, tweenCompleteCallback: onDelayReachesCallback);
             ITween iTween = CreateTween(0, time, null, ref config);
             iTween.Run();
             return iTween;

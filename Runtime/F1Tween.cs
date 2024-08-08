@@ -5,7 +5,7 @@ namespace SAS.TweenManagement
     public struct FloatTween : ITween
     {
         float ITween.DelayCounter { get; set; }
-        bool ITween.DoInReverese { get; set; }
+        bool ITween.DoInReverse { get; set; }
         public bool StopOnceCurrentLoopCompleted { get; set; }
         short ITween.CompletedLoopCount { get; set; }
         float ITween.Value { get; set; }

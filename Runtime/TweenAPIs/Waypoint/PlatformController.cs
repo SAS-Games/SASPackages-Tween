@@ -47,7 +47,7 @@ namespace SAS.TweenManagement.Waypoints
                 else
                     m_Platform.position = position;
             }
-            _config = Having.Param.Speed(m_Speed).WithDelay(m_delay).SetEase(m_EaseType).UseTick(m_Tick);
+            _config = new TweenConfig().Speed(m_Speed).WithDelay(m_delay).SetEase(m_EaseType).UseTick(m_Tick);
             _ = MoveAsync(_currentPointIndex.Current);
 
         }

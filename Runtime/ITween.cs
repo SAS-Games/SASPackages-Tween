@@ -15,8 +15,8 @@ namespace SAS.TweenManagement
 
     public enum Tick
     {
-        FIXEDUPDATE,
         UPDATE,
+        FIXEDUPDATE
     }
 
 
@@ -24,7 +24,7 @@ namespace SAS.TweenManagement
     {
         TweenState State { get; set; }
         float DelayCounter { get; set; }
-        bool DoInReverese { get; set; }
+        bool DoInReverse { get; set; }
         bool StopOnceCurrentLoopCompleted { get; set; }
         short CompletedLoopCount { get; set; }
         float Value { get; set; }
