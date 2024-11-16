@@ -89,5 +89,12 @@ namespace SAS.TweenManagement
         {
             transform.localPosition = QuadraticPoint(from, to, controlPoint, t);
         }
+
+        internal static void SetRadialPosition(this Transform transform, Vector2 startPosition, float radius, float angle)
+        {
+            float angleInRadians = angle * Mathf.Deg2Rad;
+            transform.localPosition = startPosition + new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)) * radius;
+        }
+
     }
 }

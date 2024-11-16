@@ -90,6 +90,15 @@ namespace SAS.TweenManagement
             return iTween;
         }
 
+        public static ITween CreateTween(Transform tweenObject, float radius, ref TweenConfig tweenConfig)
+        {
+            tweenConfig.Delta = GetDeltaMove(0, 360, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
+            var position = tweenObject.transform.localPosition;
+            ITween iTween = new FloatTween(0, 360, (value) => { tweenObject.SetRadialPosition(position, radius, value); });
+            TweenRunner.Add(iTween, tweenConfig);
+            return iTween;
+        }
+
         /*
             #region Alpha
 

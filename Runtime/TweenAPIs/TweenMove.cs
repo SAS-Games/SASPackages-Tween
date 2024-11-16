@@ -65,5 +65,12 @@ namespace SAS.TweenManagement
             iTween.Run();
             return iTween;
         }
+
+        public static ITween RadialMove(Transform tweenObject, float radius, ref TweenConfig tweenConfig)
+        {
+            ITween iTween = CreateTween(tweenObject, radius, ref tweenConfig);
+            iTween.Run();
+            return iTween;
+        }
     }
 }
