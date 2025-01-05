@@ -10,10 +10,12 @@ namespace SAS.TweenManagement.Waypoints
     public abstract class WaypointCollection : IWaypointCollection
     {
         protected int _maxWaypoints;
+        protected int _startIndex;
 
-        public WaypointCollection(int maxWaypoints)
+        public WaypointCollection(int maxWaypoints, int startIndex = 0)
         {
             _maxWaypoints = maxWaypoints;
+            _startIndex = startIndex;
         }
 
         public abstract IEnumerator<int> GetWaypointEnumerator();

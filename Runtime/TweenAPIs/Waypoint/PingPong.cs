@@ -4,7 +4,7 @@ namespace SAS.TweenManagement.Waypoints
 {
     public class PingPong : WaypointCollection
     {
-        public PingPong(int waypoints) : base(waypoints)
+        public PingPong(int waypoints, int startIndex = 0) : base(waypoints, startIndex)
         {
         }
 
@@ -13,7 +13,7 @@ namespace SAS.TweenManagement.Waypoints
             if (_maxWaypoints < 2)
                 yield break;
             var direction = 1;
-            var index = 0;
+            var index = _startIndex;
 
             while (true)
             {

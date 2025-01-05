@@ -2,9 +2,9 @@
 
 namespace SAS.TweenManagement.Waypoints
 {
-    public class Cyclic : WaypointCollection
+    public class SinglePass : WaypointCollection
     {
-        public Cyclic(int waypoints, int startIndex = 0) : base(waypoints, startIndex)
+        public SinglePass(int waypoints, int startIndex = 0) : base(waypoints, startIndex)
         {
         }
 
@@ -15,13 +15,9 @@ namespace SAS.TweenManagement.Waypoints
 
             var index = _startIndex;
 
-            while (true)
+            while (index < _maxWaypoints)
             {
                 yield return index;
-
-                if (index == _maxWaypoints - 1)
-                    index = -1;
-
                 ++index;
             }
         }
