@@ -44,6 +44,5 @@ namespace SAS.TweenManagement
             _tween?.Stop(false);
             _transform = null;
         }
-
     }
 }
