@@ -3,6 +3,10 @@
   "version": "1.5.1",
   "displayName": "SAS Tween Management",
   "unity": "2019.1",
+  "author": {
+    "name": "SAS",
+    "email": "sonkar.abhi86@gmail.com"
+  },
   "dependencies": {
     "com.sas.utilities": "1.0.0"
   },
