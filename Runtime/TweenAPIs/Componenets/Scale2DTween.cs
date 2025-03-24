@@ -5,7 +5,7 @@ namespace SAS.TweenManagement
         public override void Play(OnAnimationCompleteCallback ontweenCompleted)
         {
             base.Play(ontweenCompleted);
-            _tween = Tween.Scale(_transform, m_from, m_To, m_ParamConfig.value);
+            _tween = Tween.Scale(_transform, m_from, m_To, ref m_ParamConfig);
         }
 
         protected override void Reset()

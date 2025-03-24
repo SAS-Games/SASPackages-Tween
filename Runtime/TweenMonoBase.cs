@@ -1,14 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
 namespace SAS.TweenManagement
 {
     internal abstract class TweenMonoBase : MonoBehaviour, ITweenComponent
     {
-        [SerializeField] private UnityEvent OnCompleteEvent;
-        [SerializeField] protected ScriptableReadOnlyTweenConfig m_ParamConfig;
         [SerializeField] private bool m_PlayOnEnable = false;
-
+        [SerializeField] protected TweenConfig m_ParamConfig;
 
         protected Transform _transform;
         protected ITween _tween;
@@ -23,12 +20,12 @@ namespace SAS.TweenManagement
             if (!_transform)
                 _transform = transform;
             if (ontweenCompleted != null)
-                m_ParamConfig.value.TweenCompleteCallback(ontweenCompleted);
+                m_ParamConfig.TweenCompleteCallback(ontweenCompleted);
         }
 
         public void Play()
         {
-            Play(_ => OnCompleteEvent?.Invoke());
+            Play(null);
         }
 
         protected abstract void Reset();
@@ -38,7 +35,7 @@ namespace SAS.TweenManagement
             Reset();
             _tween?.Stop(false);
         }
-        
+
         void OnDestroy()
         {
             _tween?.Stop(false);
