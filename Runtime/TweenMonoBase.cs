@@ -2,13 +2,15 @@
 
 namespace SAS.TweenManagement
 {
-    internal abstract class TweenMonoBase : MonoBehaviour, ITweenComponent
+    public abstract class TweenMonoBase : MonoBehaviour, ITweenComponent
     {
         [SerializeField] private bool m_PlayOnEnable = false;
         [SerializeField] protected TweenConfig m_ParamConfig;
 
         protected Transform _transform;
         protected ITween _tween;
+        public ITween TweenInstance => _tween;
+
 
         void OnEnable()
         {
@@ -40,6 +42,11 @@ namespace SAS.TweenManagement
         {
             _tween?.Stop(false);
             _transform = null;
+        }
+
+        public ref TweenConfig UpdateAndGetRefToParamConfig()
+        {
+            return ref m_ParamConfig;
         }
     }
 }

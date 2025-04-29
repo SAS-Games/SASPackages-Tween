@@ -10,7 +10,7 @@ namespace SAS.TweenManagement
 
         protected override void Reset()
         {
-            _transform.SetLocalEulerAngles(m_from);
+            _transform?.SetLocalEulerAngles(m_from);
         }
     }
 }
