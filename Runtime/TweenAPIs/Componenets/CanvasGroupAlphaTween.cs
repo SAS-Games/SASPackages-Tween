@@ -14,7 +14,7 @@ namespace SAS.TweenManagement
         protected override float GetCurrentValue() => _transform.GetComponent<CanvasGroup>().alpha;
         protected override void Reset()
         {
-            _transform.GetComponent<CanvasGroup>().SetAlpha(_resolvedFrom);
+            _transform?.GetComponent<CanvasGroup>()?.SetAlpha(_resolvedFrom);
         }
     }
 }

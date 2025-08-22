@@ -14,7 +14,7 @@ namespace SAS.TweenManagement
 
         protected override void Reset()
         {
-            _transform.SetEulerAngles(_resolvedFrom);
+            _transform?.SetEulerAngles(_resolvedFrom);
         }
     }
 }

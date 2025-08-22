@@ -14,7 +14,7 @@ namespace SAS.TweenManagement
 
         protected override void Reset()
         {
-            _transform.SetLocalPosition(_resolvedTo);
+            _transform?.SetLocalPosition(_resolvedTo);
         }
     }
 }
