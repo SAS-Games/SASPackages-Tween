@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace SAS.TweenManagement.Waypoints
 {
@@ -103,13 +102,13 @@ namespace SAS.TweenManagement.Waypoints
             _activated = false;
         }
 
-        private void HandleOnTriggerEnter(Collider other)
+        public void HandleOnTriggerEnter(GameObject other)
         {
             other.transform.SetParent(m_Platform, true);
 
         }
 
-        private void HandleOnTriggerExit(Collider other)
+        public void HandleOnTriggerExit(GameObject other)
         {
             other.transform.SetParent(null);
             other.SendMessage("SetSceneToOriginal", SendMessageOptions.DontRequireReceiver);
