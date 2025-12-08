@@ -29,7 +29,7 @@ namespace SAS.TweenManagement
         
         public void Stop(bool immediate)
         {
-            if (immediate)
+            if (!immediate)
                 StopOnceCurrentLoopCompleted = true;
             else
                 State = TweenState.DONE;
