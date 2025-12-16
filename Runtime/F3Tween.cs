@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SAS.TweenManagement
 {
-    public struct Vector3Tween : ITween
+    public sealed class Vector3Tween : ITween
     {
         float ITween.DelayCounter { get; set; }
         bool ITween.DoInReverse { get; set; }
@@ -18,7 +18,7 @@ namespace SAS.TweenManagement
         private Vector3 mFrom;
         private Vector3 mTo;
 
-        public Vector3Tween(Vector3 from, Vector3 to, Action<Vector3> upateAction) : this()
+        public Vector3Tween(Vector3 from, Vector3 to, Action<Vector3> upateAction)
         {
             mFrom = from;
             mTo = to;

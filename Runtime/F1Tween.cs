@@ -2,7 +2,7 @@
 
 namespace SAS.TweenManagement
 {
-    public struct FloatTween : ITween
+    public sealed class FloatTween : ITween
     {
         float ITween.DelayCounter { get; set; }
         bool ITween.DoInReverse { get; set; }
@@ -17,7 +17,7 @@ namespace SAS.TweenManagement
         private float mFrom;
         private float mTo;
 
-        public FloatTween(float from, float to, Action<float> upateAction) : this()
+        public FloatTween(float from, float to, Action<float> upateAction)
         {
             mFrom = from;
             mTo = to;
