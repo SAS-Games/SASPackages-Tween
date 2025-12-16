@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace SAS.TweenManagement
 {
     [System.Serializable]
-    public struct TweenConfig
+    public sealed class TweenConfig
     {
         [SerializeField] private bool m_IsTimeBased;
         [SerializeField] private float m_DurationOrSpeed;

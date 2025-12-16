@@ -7,8 +7,7 @@ namespace SAS.TweenManagement
         private void Update()
         {
             deltaTime = Time.deltaTime;
-            for (int i = 0; i < mSize; ++i)
-                DoUpdate(mTweens[i]._Tween, mTweens[i]._TweenConfig);
+            TickTweens();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using SAS.Utilities;
 using System;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace SAS.TweenManagement
 {
@@ -9,17 +10,14 @@ namespace SAS.TweenManagement
         internal static void Add(in ITween tween, in TweenConfig tweenConfig)
         {
             tween.Tick = tweenConfig.Tick;
+
             if (tween.Tick == Tick.UPDATE)
             {
-                var instance = TweenRunnerUpdate.Instance;
-                instance.EnsureCapacity();
-                instance.mTweens[instance.mSize++] = new TweenArray(tween, tweenConfig);
+                TweenRunnerUpdate.Instance.Add(tween, tweenConfig);
             }
-            else if (tweenConfig.Tick == Tick.FIXEDUPDATE)
+            else if (tween.Tick == Tick.FIXEDUPDATE)
             {
-                var instance = TweenRunnerFixedUpdate.Instance;
-                instance.EnsureCapacity();
-                instance.mTweens[instance.mSize++] = new TweenArray(tween, tweenConfig);
+                TweenRunnerFixedUpdate.Instance.Add(tween, tweenConfig);
             }
         }
 
@@ -37,6 +35,7 @@ namespace SAS.TweenManagement
                 TweenRunnerFixedUpdate.Instance.AddCallback(tween, callback);
         }
     }
+
     internal struct TweenArray
     {
         public ITween _Tween;
@@ -50,94 +49,132 @@ namespace SAS.TweenManagement
 
     internal class TweenRunnerTick<T> : AutoInstantiateSingleton<T> where T : MonoBehaviour
     {
-        internal protected ushort mSize = 0;
-        internal protected float deltaTime = 0;
-        private float mValue = 0;
-        private ushort mCapacity = 4;
+        private const int DEFAULT_CAPACITY = 32;
+        protected TweenArray[] mTweens = new TweenArray[DEFAULT_CAPACITY];
+        protected int mSize;
+        protected float deltaTime;
 
-        internal protected TweenArray[] mTweens = new TweenArray[4];
-
-        internal void EnsureCapacity()
+        protected void EnsureCapacity()
         {
-            if (mSize >= mCapacity)
-            {
-                TweenArray[] newItems = new TweenArray[mCapacity *= 2];
-                if (mSize > 0)
-                    Array.Copy(mTweens, 0, newItems, 0, mSize);
-                mTweens = newItems;
-            }
-        }
-
-
-        private void Remove(in ITween tween)
-        {
-            ushort index = IndexOf(mTweens, tween);
-            if (index >= 0)
-            {
-                --mSize;
-                if (index < mSize)
-                    Array.Copy(mTweens, index + 1, mTweens, index, mSize - index);
-                mTweens[mSize] = default(TweenArray);
-            }
-        }
-
-        private ushort IndexOf(in TweenArray[] array, in ITween tween)
-        {
-            for (ushort i = 0; i < ushort.MaxValue; i++)
-            {
-                if (tween == array[i]._Tween)
-                    return i;
-            }
-            return ushort.MaxValue;
-        }
-
-        protected void DoUpdate(in ITween tween, in TweenConfig param)
-        {
-            if (tween.State == TweenState.PAUSE || tween.State == TweenState.NONE)
+            if (mSize < mTweens.Length)
                 return;
-            if (tween.State == TweenState.DONE)
-            {
-                Remove(tween);
-                return;
-            }
 
-            if (tween.DelayCounter < param.Delay)
+            int newCapacity = mTweens.Length * 2;
+            var newArray = new TweenArray[newCapacity];
+            System.Array.Copy(mTweens, newArray, mTweens.Length);
+            mTweens = newArray;
+        }
+
+        internal void Add(in ITween tween, in TweenConfig config)
+        {
+            EnsureCapacity();
+            mTweens[mSize++] = new TweenArray(tween, config);
+        }
+
+        private void RemoveAt(int index)
+        {
+            mSize--;
+            mTweens[index] = mTweens[mSize];
+            mTweens[mSize] = default;
+        }
+
+        protected void TickTweens()
+        {
+          //  Profiler.BeginSample("TweenRunnerTick");
+            for (int i = 0; i < mSize; i++)
+            {
+                var entry = mTweens[i];
+                var tween = entry._Tween;
+
+                if (tween.State == TweenState.DONE)
+                {
+                    CompleteTween(entry);
+                    RemoveAt(i--);
+                    continue;
+                }
+
+                if (tween.State == TweenState.PAUSE ||
+                    tween.State == TweenState.NONE)
+                    continue;
+
+                UpdateTween(ref entry, ref i);
+            }
+           // Profiler.EndSample();
+        }
+
+        private void UpdateTween(ref TweenArray entry, ref int index)
+        {
+            ITween tween = entry._Tween;
+            TweenConfig config = entry._TweenConfig;
+
+            if (tween.DelayCounter < config.Delay)
             {
                 tween.DelayCounter += deltaTime;
                 return;
             }
 
-            tween.Value = Mathf.MoveTowards(tween.Value, 1, deltaTime * param.Delta);
-            if (param.UseAnimationCurve)
-                mValue = param.AnimationCurve.Evaluate(tween.Value);
+            tween.Value = Mathf.MoveTowards(tween.Value, 1f, deltaTime * config.Delta);
+            float eval = config.UseAnimationCurve
+                ? config.AnimationCurve.Evaluate(tween.Value)
+                : config.CustomAnimationCurve(0f, 1f, tween.Value);
+
+            tween.DoAnim(tween.DoInReverse ? 1f - eval : eval);
+
+            // Natural completion
+            if (tween.Value < 1f)
+                return;
+
+            tween.Value = 0f;
+            tween.CompletedLoopCount++;
+
+            if (config.PingPong)
+                tween.DoInReverse = !tween.DoInReverse;
+
+            if (!ShouldComplete(tween, config))
+                return;
+
+            tween.State = TweenState.DONE;
+            CompleteTween(entry);
+            RemoveAt(index--);
+        }
+
+        private static bool ShouldComplete(ITween tween, in TweenConfig config)
+        {
+            if (tween.StopOnceCurrentLoopCompleted)
+                return true;
+
+            if (config.LoopCount < 0)
+                return false;
+
+            int limit;
+
+            if (config.PingPong)
+                limit = (config.LoopCount == 1) ? 2 : config.LoopCount * 2;
             else
-                mValue = param.CustomAnimationCurve(0, 1, tween.Value);
+                limit = config.LoopCount;
+            return tween.CompletedLoopCount >= limit;
+        }
 
-            tween.DoAnim(!tween.DoInReverse ? mValue : 1 - mValue);
 
-            if (tween.Value >= 1)
+        private static void CompleteTween(in TweenArray entry)
+        {
+            var config = entry._TweenConfig;
+            config.OnTweeningComplete?.Invoke();
+            config.OnTweenCompleteCallback?.Invoke(null);
+        }
+
+
+        internal void AddCallback(in ITween tween, OnAnimationCompleteCallback callback)
+        {
+            for (int i = 0; i < mSize; i++)
             {
-                tween.Value = 0;
-                tween.DoInReverse = param.PingPong ? !tween.DoInReverse : tween.DoInReverse;
-                ++tween.CompletedLoopCount;
-
-                if (tween.StopOnceCurrentLoopCompleted || !(tween.CompletedLoopCount != (param.PingPong ? param.LoopCount != 1 ? 2 * param.LoopCount : 2 : param.LoopCount)))
+                if (ReferenceEquals(mTweens[i]._Tween, tween))
                 {
-                    tween.State = TweenState.DONE;
-                    param.OnTweeningComplete?.Invoke();
-                    param.OnTweenCompleteCallback?.Invoke(null);
-                    Remove(tween);
+                    mTweens[i]._TweenConfig.TweenCompleteCallback(callback);
+                    return;
                 }
             }
         }
 
-        internal void AddCallback(in ITween tween, OnAnimationCompleteCallback callback)
-        {
-            for (int i = 0; i < mTweens.Length; ++i)
-            {
-                if (mTweens[i]._Tween != null && mTweens[i]._Tween.Equals(tween))
-                    mTweens[i]._TweenConfig.TweenCompleteCallback(callback);
-            }
-        }
     }
 }
