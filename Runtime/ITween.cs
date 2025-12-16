@@ -3,7 +3,7 @@
 namespace SAS.TweenManagement
 {
 	public delegate float CustomCurve(float start, float end, float val);
-	public delegate void OnAnimationCompleteCallback(object o);
+	public delegate void OnAnimationCompleteCallback();
 
 	public enum TweenState
 	{

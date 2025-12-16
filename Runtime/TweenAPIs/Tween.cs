@@ -196,7 +196,7 @@ namespace SAS.TweenManagement
             {
                 for (int i = 0; i < _tweens.Length; ++i)
                 {
-                    TweenRunner.AddCallback(_tweens[i], fun => OnTweenComplete());
+                    TweenRunner.AddCallback(_tweens[i], OnTweenComplete);
                     _tweens[i].Run();
                 }
             }
@@ -226,7 +226,7 @@ namespace SAS.TweenManagement
             public void Run()
             {
                 for (int i = 0; i < _tweens.Length; ++i)
-                    TweenRunner.AddCallback(_tweens[i], fun => OnTweenComplete());
+                    TweenRunner.AddCallback(_tweens[i], OnTweenComplete);
                 _tweens[_completedTweenCount].Run();
             }
 

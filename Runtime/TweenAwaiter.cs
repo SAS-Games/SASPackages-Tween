@@ -15,14 +15,14 @@ namespace SAS.TweenManagement
             _isCompleted = false;
             if (itween.Tick == Tick.UPDATE)
             {
-                TweenRunnerUpdate.Instance.AddCallback(_itween, ele =>
+                TweenRunnerUpdate.Instance.AddCallback(_itween, () =>
                 {
                     IsCompleted = _itween.State == TweenState.DONE;
                 });
             }
             else if (itween.Tick == Tick.FIXEDUPDATE)
             {
-                TweenRunnerFixedUpdate.Instance.AddCallback(_itween, ele =>
+                TweenRunnerFixedUpdate.Instance.AddCallback(_itween, () =>
                 {
                     IsCompleted = _itween.State == TweenState.DONE;
                 });

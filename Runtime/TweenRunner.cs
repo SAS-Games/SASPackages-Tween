@@ -80,10 +80,9 @@ namespace SAS.TweenManagement
 
         protected void TickTweens()
         {
-          //  Profiler.BeginSample("TweenRunnerTick");
             for (int i = 0; i < mSize; i++)
             {
-                var entry = mTweens[i];
+                ref TweenArray entry = ref mTweens[i];
                 var tween = entry._Tween;
 
                 if (tween.State == TweenState.DONE)
@@ -99,7 +98,6 @@ namespace SAS.TweenManagement
 
                 UpdateTween(ref entry, ref i);
             }
-           // Profiler.EndSample();
         }
 
         private void UpdateTween(ref TweenArray entry, ref int index)
@@ -114,14 +112,15 @@ namespace SAS.TweenManagement
             }
 
             tween.Value = Mathf.MoveTowards(tween.Value, 1f, deltaTime * config.Delta);
+            float t = tween.Value;
             float eval = config.UseAnimationCurve
-                ? config.AnimationCurve.Evaluate(tween.Value)
-                : config.CustomAnimationCurve(0f, 1f, tween.Value);
+                ? config.AnimationCurve.Evaluate(t)
+                : config.CustomAnimationCurve(0f, 1f, t);
 
             tween.DoAnim(tween.DoInReverse ? 1f - eval : eval);
 
             // Natural completion
-            if (tween.Value < 1f)
+            if (t < 1f)
                 return;
 
             tween.Value = 0f;
@@ -160,7 +159,7 @@ namespace SAS.TweenManagement
         {
             var config = entry._TweenConfig;
             config.OnTweeningComplete?.Invoke();
-            config.OnTweenCompleteCallback?.Invoke(null);
+            config.OnTweenCompleteCallback?.Invoke();
         }
 
 
