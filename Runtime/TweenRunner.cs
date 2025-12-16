@@ -1,7 +1,4 @@
-﻿using SAS.Utilities;
-using System;
-using UnityEngine;
-using UnityEngine.Profiling;
+﻿using UnityEngine;
 
 namespace SAS.TweenManagement
 {
@@ -34,6 +31,15 @@ namespace SAS.TweenManagement
             else if (tween.Tick == Tick.FIXEDUPDATE)
                 TweenRunnerFixedUpdate.Instance.AddCallback(tween, callback);
         }
+
+        internal static void RemoveCallback(ITween tween, OnAnimationCompleteCallback callback)
+        {
+            if (tween.Tick == Tick.UPDATE)
+                TweenRunnerUpdate.Instance.RemoveCallback(tween, callback);
+            else if (tween.Tick == Tick.FIXEDUPDATE)
+                TweenRunnerFixedUpdate.Instance.RemoveCallback(tween, callback);
+        }
+
     }
 
     internal struct TweenArray
@@ -160,6 +166,9 @@ namespace SAS.TweenManagement
             var config = entry._TweenConfig;
             config.OnTweeningComplete?.Invoke();
             config.OnTweenCompleteCallback?.Invoke();
+
+            var tween = entry._Tween;
+            tween.Release();
         }
 
 
@@ -169,7 +178,19 @@ namespace SAS.TweenManagement
             {
                 if (ReferenceEquals(mTweens[i]._Tween, tween))
                 {
-                    mTweens[i]._TweenConfig.TweenCompleteCallback(callback);
+                    mTweens[i]._TweenConfig.AddCallback(callback);
+                    return;
+                }
+            }
+        }
+
+        internal void RemoveCallback(ITween tween, OnAnimationCompleteCallback callback)
+        {
+            for (int i = 0; i < mSize; i++)
+            {
+                if (ReferenceEquals(mTweens[i]._Tween, tween))
+                {
+                    mTweens[i]._TweenConfig.RemoveCallback(callback);
                     return;
                 }
             }

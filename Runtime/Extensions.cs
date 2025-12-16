@@ -5,6 +5,27 @@ namespace SAS.TweenManagement
 {
     public static class Extensions
     {
+        public static void SetPositionX(this Transform t, float x)
+        {
+            var p = t.position;
+            p.x = x;
+            t.position = p;
+        }
+
+        public static void SetPositionY(this Transform t, float y)
+        {
+            var p = t.position;
+            p.y = y;
+            t.position = p;
+        }
+
+        public static void SetPositionZ(this Transform t, float z)
+        {
+            var p = t.position;
+            p.z = z;
+            t.position = p;
+        }
+
         public static void SetPosition(this Transform transform, Vector3 position)
         {
             transform.position = position;
@@ -25,6 +46,27 @@ namespace SAS.TweenManagement
         public static void SetPosition(this RectTransform rectTransform, Vector2 position)
         {
             rectTransform.anchoredPosition = position;
+        }
+
+        public static void SetLocalPositionX(this Transform t, float x)
+        {
+            var p = t.localPosition;
+            p.x = x;
+            t.localPosition = p;
+        }
+
+        public static void SetLocalPositionY(this Transform t, float y)
+        {
+            var p = t.localPosition;
+            p.y = y;
+            t.localPosition = p;
+        }
+
+        public static void SetLocalPositionZ(this Transform t, float z)
+        {
+            var p = t.localPosition;
+            p.z = z;
+            t.localPosition = p;
         }
 
         public static void SetLocalPosition(this Transform transform, Vector3 position)

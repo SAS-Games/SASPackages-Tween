@@ -96,10 +96,15 @@ namespace SAS.TweenManagement
             return this;
         }
 
-        public TweenConfig TweenCompleteCallback(OnAnimationCompleteCallback callback)
+        public TweenConfig AddCallback(OnAnimationCompleteCallback callback)
         {
             OnTweenCompleteCallback += callback;
             return this;
+        }
+
+        public void RemoveCallback(OnAnimationCompleteCallback callback)
+        {
+            OnTweenCompleteCallback -= callback;
         }
     }
 }

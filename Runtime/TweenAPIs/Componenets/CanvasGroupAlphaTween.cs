@@ -8,7 +8,7 @@ namespace SAS.TweenManagement
         public override void Play(OnAnimationCompleteCallback ontweenCompleted)
         {
             base.Play(ontweenCompleted);
-            _tween = Tween.Alpha(_transform.GetComponent<CanvasGroup>(), _resolvedFrom, _resolvedTo, ref m_ParamConfig);
+            _tween = Tween.Alpha(_transform.GetComponent<CanvasGroup>(), _resolvedFrom, _resolvedTo, m_ParamConfig);
         }
 
         protected override float GetCurrentValue() => _transform.GetComponent<CanvasGroup>().alpha;

@@ -87,9 +87,9 @@ namespace SAS.TweenManagement.Waypoints
             if (this != null)
             {
                 if (m_LocalSpace)
-                    _tween = Tween.MoveLocal(m_Platform, m_Waypoints[i], ref _config);
+                    _tween = Tween.MoveLocal(m_Platform, m_Waypoints[i], _config);
                 else
-                    _tween = Tween.Move(m_Platform, m_Waypoints[i], ref _config);
+                    _tween = Tween.Move(m_Platform, m_Waypoints[i], _config);
                 await _tween;
                 if (_currentPointIndex.MoveNext())
                     _ = MoveAsync(_currentPointIndex.Current);

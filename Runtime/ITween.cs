@@ -26,13 +26,14 @@ namespace SAS.TweenManagement
         float DelayCounter { get; set; }
         bool DoInReverse { get; set; }
         bool StopOnceCurrentLoopCompleted { get; set; }
-        short CompletedLoopCount { get; set; }
+        int CompletedLoopCount { get; set; }
         float Value { get; set; }
         Tick Tick { get; set; }
         void DoAnim(float val);
         void Run();
         void Pause();
         void Stop(bool immediate);
+        void Release();
     }
 
     public struct CustomLerp

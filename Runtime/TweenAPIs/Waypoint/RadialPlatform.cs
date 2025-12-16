@@ -11,7 +11,7 @@ namespace SAS.TweenManagement.Waypoints
 
         void Start()
         {
-            _tween = Tween.RadialMove(m_Platform, m_Radius, ref m_TweenConfig);
+            _tween = Tween.RadialMove(m_Platform, m_Radius, m_TweenConfig);
         }
 
         private void OnDestroy()

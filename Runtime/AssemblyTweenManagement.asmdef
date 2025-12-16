@@ -1,8 +1,7 @@
 {
     "name": "AssemblyTweenManagement",
-    "references": [
-        "GUID:13cf59ac3f7b5964191f0da506f45fe2"
-    ],
+    "rootNamespace": "",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

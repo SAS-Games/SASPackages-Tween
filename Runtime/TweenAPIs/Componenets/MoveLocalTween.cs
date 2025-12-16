@@ -7,10 +7,10 @@ namespace SAS.TweenManagement
         public override void Play(OnAnimationCompleteCallback ontweenCompleted)
         {
             base.Play(ontweenCompleted);
-            Tween.MoveLocal(_transform, _resolvedFrom, _resolvedTo, ref m_ParamConfig);
+            Tween.MoveLocal(_transform, _resolvedFrom, _resolvedTo, m_ParamConfig);
         }
-        
-        protected override Vector3 GetCurrentValue()=> _transform.localPosition;
+
+        protected override Vector3 GetCurrentValue() => _transform.localPosition;
 
         protected override void Reset()
         {
