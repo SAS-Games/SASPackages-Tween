@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace SAS.TweenManagement
 {
@@ -242,54 +242,112 @@ namespace SAS.TweenManagement
 
         public sealed class Sequence
         {
-            private ITween[] _tweens;
-            private Action _onSequenceComplete;
+            private const int MaxSteps = 8;
+
+            private readonly ITween[] _steps = new ITween[MaxSteps];
+            private int _count;
             private int _index;
+
+            private Action _onSequenceComplete;
             private bool _isRunning;
 
-            public Sequence(ITween[] tweens, Action onComplete = null)
+ 
+            public Sequence Begin(Action onComplete = null)
             {
-                _tweens = tweens;
-                _onSequenceComplete = onComplete;
+                _count = 0;
                 _index = 0;
+                _onSequenceComplete = onComplete;
+                _isRunning = false;
+                return this;
             }
+
+            public Sequence Append(ITween tween)
+            {
+#if UNITY_EDITOR
+                if (_count >= MaxSteps)
+                    throw new InvalidOperationException("Sequence step limit exceeded");
+#endif
+                _steps[_count++] = tween;
+                return this;
+            }
+
 
             public void Run()
             {
                 if (_isRunning)
                     return;
 
-                _isRunning = true;
-                if (_tweens == null || _tweens.Length == 0)
+                if (_count == 0)
                 {
                     _isRunning = false;
-                    _onSequenceComplete?.Invoke();
+
+                    var callback = _onSequenceComplete;
+                    _onSequenceComplete = null;
+                    callback?.Invoke();
+
+                    SequencePool.Release(this);
                     return;
                 }
 
+                _isRunning = true;
                 _index = 0;
                 PlayCurrent();
             }
 
             private void PlayCurrent()
             {
-                var tween = _tweens[_index];
+                ITween tween = _steps[_index];
                 TweenRunner.AddCallback(tween, OnTweenComplete);
                 tween.Run();
             }
 
             private void OnTweenComplete()
             {
-                TweenRunner.RemoveCallback(_tweens[_index], OnTweenComplete);
-                _index++;
-                if (_index >= _tweens.Length)
+                ITween tween = _steps[_index];
+                TweenRunner.RemoveCallback(tween, OnTweenComplete);
+
+                if (++_index < _count)
+                    PlayCurrent();
+                else
                 {
                     _isRunning = false;
-                    _onSequenceComplete?.Invoke();
-                    return;
-                }
 
-                PlayCurrent();
+                    var callback = _onSequenceComplete;
+                    _onSequenceComplete = null;
+                    callback?.Invoke();
+
+                    SequencePool.Release(this);
+                }
+            }
+
+            public void Reset()
+            {
+                for (int i = 0; i < _count; i++)
+                    _steps[i] = null;
+
+                _count = 0;
+                _index = 0;
+                _onSequenceComplete = null;
+                _isRunning = false;
+            }
+        }
+
+
+        public static class SequencePool
+        {
+            private static readonly Stack<Sequence> _pool = new();
+
+            public static Sequence Get()
+            {
+                return _pool.Count > 0
+                    ? _pool.Pop()
+                    : new Sequence();
+            }
+
+            public static void Release(Sequence sequence)
+            {
+                sequence.Reset();
+                _pool.Push(sequence);
             }
         }
 
