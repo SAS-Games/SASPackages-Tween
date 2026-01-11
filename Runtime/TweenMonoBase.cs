@@ -35,12 +35,12 @@ namespace SAS.TweenManagement
         protected void OnDisable()
         {
             Reset();
-            _tween?.Stop(false);
+            _tween?.Stop(true);
         }
 
         void OnDestroy()
         {
-            _tween?.Stop(false);
+            _tween?.Stop(true);
             _transform = null;
         }
 
