@@ -12,7 +12,7 @@ namespace SAS.TweenManagement
         public TweenState State { get; set; }
         public Tick Tick { get; set; }
 
-        private T _from;
+    private T _from;
         private T _to;
         private Action<T> _onUpdate;
         private Func<T, T, float, T> _lerp;
@@ -61,6 +61,24 @@ namespace SAS.TweenManagement
         public void Release()
         {
             ValueTweenPool<T>.Release(this);
+        }
+
+        private event OnAnimationCompleteCallback _onComplete;
+
+        public void AddCallback(OnAnimationCompleteCallback callback)
+        {
+            _onComplete += callback;
+        }
+
+        public void RemoveCallback(OnAnimationCompleteCallback callback)
+        {
+            _onComplete -= callback;
+        }
+
+        public void InvokeCallbacks()
+        {
+            _onComplete?.Invoke();
+            _onComplete = null; // important: avoid leaks when pooled
         }
     }
 }

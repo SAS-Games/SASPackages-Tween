@@ -16,10 +16,7 @@ namespace SAS.TweenManagement
         [SerializeField] private AnimationCurve m_AnimationCurve;
         [SerializeField] private Tick m_Tick;
 
-        public UnityEvent OnTweeningComplete;
         private CustomCurve mCustomCurve;
-        public OnAnimationCompleteCallback OnTweenCompleteCallback { get; private set; }
-
         public CustomCurve CustomAnimationCurve
         {
             get
@@ -94,17 +91,6 @@ namespace SAS.TweenManagement
             m_UseAnimationCurve = true;
             m_AnimationCurve = animationCurve;
             return this;
-        }
-
-        public TweenConfig AddCallback(OnAnimationCompleteCallback callback)
-        {
-            OnTweenCompleteCallback += callback;
-            return this;
-        }
-
-        public void RemoveCallback(OnAnimationCompleteCallback callback)
-        {
-            OnTweenCompleteCallback -= callback;
         }
     }
 }

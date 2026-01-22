@@ -22,7 +22,7 @@ namespace SAS.TweenManagement
             if (!_transform)
                 _transform = transform;
             if (ontweenCompleted != null)
-                m_ParamConfig.AddCallback(ontweenCompleted);
+                _tween.AddCallback(ontweenCompleted);
         }
 
         public void Play()

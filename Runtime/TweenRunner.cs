@@ -163,11 +163,8 @@ namespace SAS.TweenManagement
 
         private static void CompleteTween(in TweenArray entry)
         {
-            var config = entry._TweenConfig;
-            config.OnTweeningComplete?.Invoke();
-            config.OnTweenCompleteCallback?.Invoke();
-
             var tween = entry._Tween;
+            tween.InvokeCallbacks();
             tween.Release();
         }
 
@@ -178,7 +175,7 @@ namespace SAS.TweenManagement
             {
                 if (ReferenceEquals(mTweens[i]._Tween, tween))
                 {
-                    mTweens[i]._TweenConfig.AddCallback(callback);
+                    mTweens[i]._Tween.AddCallback(callback);
                     return;
                 }
             }
@@ -190,7 +187,7 @@ namespace SAS.TweenManagement
             {
                 if (ReferenceEquals(mTweens[i]._Tween, tween))
                 {
-                    mTweens[i]._TweenConfig.RemoveCallback(callback);
+                    mTweens[i]._Tween.RemoveCallback(callback);
                     return;
                 }
             }

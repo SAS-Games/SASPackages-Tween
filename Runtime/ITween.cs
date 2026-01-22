@@ -34,6 +34,10 @@ namespace SAS.TweenManagement
         void Pause();
         void Stop(bool immediate);
         void Release();
+
+        void AddCallback(OnAnimationCompleteCallback callback);
+        void RemoveCallback(OnAnimationCompleteCallback callback);
+        void InvokeCallbacks();
     }
 
     public struct CustomLerp
