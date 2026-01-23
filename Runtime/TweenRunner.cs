@@ -4,7 +4,7 @@ namespace SAS.TweenManagement
 {
     internal class TweenRunner
     {
-        internal static void Add(in ITween tween, in TweenConfig tweenConfig)
+        internal static void Add(in TweenBase tween, in TweenConfig tweenConfig)
         {
             tween.Tick = tweenConfig.Tick;
 
@@ -24,7 +24,7 @@ namespace SAS.TweenManagement
             TweenRunnerFixedUpdate.Instance.enabled = !state;
         }
 
-        internal static void AddCallback(in ITween tween, OnAnimationCompleteCallback callback)
+        internal static void AddCallback(in TweenBase tween, OnAnimationCompleteCallback callback)
         {
             if (tween.Tick == Tick.UPDATE)
                 TweenRunnerUpdate.Instance.AddCallback(tween, callback);
@@ -32,7 +32,7 @@ namespace SAS.TweenManagement
                 TweenRunnerFixedUpdate.Instance.AddCallback(tween, callback);
         }
 
-        internal static void RemoveCallback(ITween tween, OnAnimationCompleteCallback callback)
+        internal static void RemoveCallback(TweenBase tween, OnAnimationCompleteCallback callback)
         {
             if (tween.Tick == Tick.UPDATE)
                 TweenRunnerUpdate.Instance.RemoveCallback(tween, callback);
@@ -44,9 +44,9 @@ namespace SAS.TweenManagement
 
     internal struct TweenArray
     {
-        public ITween _Tween;
+        public TweenBase _Tween;
         public TweenConfig _TweenConfig;
-        public TweenArray(in ITween tween, in TweenConfig tweenConfig)
+        public TweenArray(in TweenBase tween, in TweenConfig tweenConfig)
         {
             _Tween = tween;
             _TweenConfig = tweenConfig;
@@ -71,7 +71,7 @@ namespace SAS.TweenManagement
             mTweens = newArray;
         }
 
-        internal void Add(in ITween tween, in TweenConfig config)
+        internal void Add(in TweenBase tween, in TweenConfig config)
         {
             EnsureCapacity();
             mTweens[mSize++] = new TweenArray(tween, config);
@@ -108,7 +108,7 @@ namespace SAS.TweenManagement
 
         private void UpdateTween(ref TweenArray entry, ref int index)
         {
-            ITween tween = entry._Tween;
+            TweenBase tween = entry._Tween;
             TweenConfig config = entry._TweenConfig;
 
             if (tween.DelayCounter < config.Delay)
@@ -143,7 +143,7 @@ namespace SAS.TweenManagement
             RemoveAt(index--);
         }
 
-        private static bool ShouldComplete(ITween tween, in TweenConfig config)
+        private static bool ShouldComplete(TweenBase tween, in TweenConfig config)
         {
             if (tween.StopOnceCurrentLoopCompleted)
                 return true;
@@ -169,7 +169,7 @@ namespace SAS.TweenManagement
         }
 
 
-        internal void AddCallback(in ITween tween, OnAnimationCompleteCallback callback)
+        internal void AddCallback(in TweenBase tween, OnAnimationCompleteCallback callback)
         {
             for (int i = 0; i < mSize; i++)
             {
@@ -181,7 +181,7 @@ namespace SAS.TweenManagement
             }
         }
 
-        internal void RemoveCallback(ITween tween, OnAnimationCompleteCallback callback)
+        internal void RemoveCallback(TweenBase tween, OnAnimationCompleteCallback callback)
         {
             for (int i = 0; i < mSize; i++)
             {

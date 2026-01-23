@@ -31,7 +31,7 @@ namespace SAS.TweenManagement.Waypoints
 
         private IEnumerator<int> _currentPointIndex;
         private TweenConfig _config;
-        private ITween _tween;
+        private TweenBase _tween;
         private bool _activated = false;
 
         private void Start()

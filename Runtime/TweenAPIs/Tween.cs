@@ -6,7 +6,7 @@ namespace SAS.TweenManagement
 {
     public static partial class Tween
     {
-        public static ITween CreateTween(float from, float to, Action<float> onUpdate, TweenConfig tweenConfig)
+        public static TweenBase CreateTween(float from, float to, Action<float> onUpdate, TweenConfig tweenConfig)
         {
             tweenConfig.Delta = GetDeltaMove(from, to, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
             var iTween = ValueTweenPool<float>.Get();
@@ -15,7 +15,7 @@ namespace SAS.TweenManagement
             return iTween;
         }
 
-        public static ITween CreateTween(Vector2 from, Vector2 to, Action<Vector2> onUpdate, TweenConfig tweenConfig)
+        public static TweenBase CreateTween(Vector2 from, Vector2 to, Action<Vector2> onUpdate, TweenConfig tweenConfig)
         {
             tweenConfig.Delta = GetDeltaMove(from, to, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
             var iTween = ValueTweenPool<Vector2>.Get();
@@ -24,7 +24,7 @@ namespace SAS.TweenManagement
             return iTween;
         }
 
-        public static ITween CreateTween(Vector3 from, Vector3 to, Action<Vector3> onUpdate, TweenConfig tweenConfig)
+        public static TweenBase CreateTween(Vector3 from, Vector3 to, Action<Vector3> onUpdate, TweenConfig tweenConfig)
         {
             tweenConfig.Delta = GetDeltaMove(from, to, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
             var iTween = ValueTweenPool<Vector3>.Get();
@@ -33,7 +33,7 @@ namespace SAS.TweenManagement
             return iTween;
         }
 
-        public static ITween CreateTween(Vector4 from, Vector4 to, Action<Vector4> onUpdate, TweenConfig tweenConfig)
+        public static TweenBase CreateTween(Vector4 from, Vector4 to, Action<Vector4> onUpdate, TweenConfig tweenConfig)
         {
             tweenConfig.Delta = GetDeltaMove(from, to, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
             var iTween = ValueTweenPool<Vector4>.Get();
@@ -42,7 +42,7 @@ namespace SAS.TweenManagement
             return iTween;
         }
 
-        public static ITween CreateTween(Quaternion from, Quaternion to, Action<Quaternion> onUpdate, TweenConfig tweenConfig)
+        public static TweenBase CreateTween(Quaternion from, Quaternion to, Action<Quaternion> onUpdate, TweenConfig tweenConfig)
         {
             tweenConfig.Delta = GetDeltaMove(from, to, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
             var iTween = ValueTweenPool<Quaternion>.Get();
@@ -51,63 +51,63 @@ namespace SAS.TweenManagement
             return iTween;
         }
 
-        public static ITween CubicBezier(Transform tweenObject, Vector3 to, Vector3 cp1, Vector3 cp2, float duration, OnAnimationCompleteCallback callback)
+        public static TweenBase CubicBezier(Transform tweenObject, Vector3 to, Vector3 cp1, Vector3 cp2, float duration, OnAnimationCompleteCallback callback)
         {
             return CubicBezier(tweenObject, tweenObject.transform.position, to, cp1, cp2, duration, callback);
         }
 
-        public static ITween CubicBezier(Transform tweenObject, Vector3 from, Vector3 to, Vector3 cp1, Vector3 cp2, float duration, OnAnimationCompleteCallback callback)
+        public static TweenBase CubicBezier(Transform tweenObject, Vector3 from, Vector3 to, Vector3 cp1, Vector3 cp2, float duration, OnAnimationCompleteCallback callback)
         {
             TweenConfig tweenConfig = new TweenConfig().Duration(duration);
-            ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, cp1, cp2, value); }, tweenConfig);
+            TweenBase iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, cp1, cp2, value); }, tweenConfig);
             iTween.AddCallback(callback);
             iTween.Run();
             return iTween;
         }
 
-        public static ITween CubicBezier(Transform tweenObject, Vector2 to, Vector2 cp1, Vector2 cp2, float duration, OnAnimationCompleteCallback callback)
+        public static TweenBase CubicBezier(Transform tweenObject, Vector2 to, Vector2 cp1, Vector2 cp2, float duration, OnAnimationCompleteCallback callback)
         {
             return CubicBezier(tweenObject, (Vector2)tweenObject.transform.position, to, cp1, cp2, duration, callback);
         }
 
-        public static ITween CubicBezier(Transform tweenObject, Vector2 from, Vector2 to, Vector2 cp1, Vector2 cp2, float duration, OnAnimationCompleteCallback callback)
+        public static TweenBase CubicBezier(Transform tweenObject, Vector2 from, Vector2 to, Vector2 cp1, Vector2 cp2, float duration, OnAnimationCompleteCallback callback)
         {
             TweenConfig tweenConfig = new TweenConfig().Duration(duration);
-            ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, cp1, cp2, value); }, tweenConfig);
+            TweenBase iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, cp1, cp2, value); }, tweenConfig);
             iTween.AddCallback(callback);
             iTween.Run();
             return iTween;
         }
 
-        public static ITween QuadraticBezier(Transform tweenObject, Vector3 to, Vector3 controlPoint, float duration, OnAnimationCompleteCallback callback)
+        public static TweenBase QuadraticBezier(Transform tweenObject, Vector3 to, Vector3 controlPoint, float duration, OnAnimationCompleteCallback callback)
         {
             return QuadraticBezier(tweenObject, tweenObject.transform.position, to, controlPoint, duration, callback);
         }
 
-        public static ITween QuadraticBezier(Transform tweenObject, Vector3 from, Vector3 to, Vector3 controlPoint, float duration, OnAnimationCompleteCallback callback)
+        public static TweenBase QuadraticBezier(Transform tweenObject, Vector3 from, Vector3 to, Vector3 controlPoint, float duration, OnAnimationCompleteCallback callback)
         {
             TweenConfig tweenConfig = new TweenConfig().Duration(duration);
-            ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, controlPoint, value); }, tweenConfig);
+            TweenBase iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, controlPoint, value); }, tweenConfig);
             iTween.AddCallback(callback);
             iTween.Run();
             return iTween;
         }
 
-        public static ITween QuadraticBezier(Transform tweenObject, Vector2 to, Vector2 controlPoint, float duration, OnAnimationCompleteCallback callback)
+        public static TweenBase QuadraticBezier(Transform tweenObject, Vector2 to, Vector2 controlPoint, float duration, OnAnimationCompleteCallback callback)
         {
             return QuadraticBezier(tweenObject, (Vector2)tweenObject.transform.position, to, controlPoint, duration, callback);
         }
 
-        public static ITween QuadraticBezier(Transform tweenObject, Vector2 from, Vector2 to, Vector2 controlPoint, float duration, OnAnimationCompleteCallback callback)
+        public static TweenBase QuadraticBezier(Transform tweenObject, Vector2 from, Vector2 to, Vector2 controlPoint, float duration, OnAnimationCompleteCallback callback)
         {
             TweenConfig tweenConfig = new TweenConfig().Duration(duration);
-            ITween iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, controlPoint, value); }, tweenConfig);
+            TweenBase iTween = CreateTween(0, 1, (value) => { tweenObject.SetPosition(from, to, controlPoint, value); }, tweenConfig);
             iTween.AddCallback(callback);
             iTween.Run();
             return iTween;
         }
 
-        public static ITween CreateTween(Transform tweenObject, float radius, TweenConfig tweenConfig)
+        public static TweenBase CreateTween(Transform tweenObject, float radius, TweenConfig tweenConfig)
         {
             tweenConfig.Delta = GetDeltaMove(0, 360, tweenConfig.DurationOrSpeed, tweenConfig.IsTimeBased);
             var position = tweenObject.transform.localPosition;
@@ -179,10 +179,10 @@ namespace SAS.TweenManagement
 
             #endregion
                 */
-        public static ITween Timer(float time, OnAnimationCompleteCallback onDelayReachesCallback)
+        public static TweenBase Timer(float time, OnAnimationCompleteCallback onDelayReachesCallback)
         {
             TweenConfig config = new TweenConfig().Duration(time); //new TweenConfig(delay, timeBased: true, tweenCompleteCallback: onDelayReachesCallback);
-            ITween iTween = CreateTween(0, time, null, config);
+            TweenBase iTween = CreateTween(0, time, null, config);
             iTween.AddCallback(onDelayReachesCallback);
             iTween.Run();
             return iTween;
@@ -190,13 +190,13 @@ namespace SAS.TweenManagement
 
         public sealed class Parallel
         {
-            private ITween[] _tweens;
+            private TweenBase[] _tweens;
             private Action _onComplete;
 
             private int _completedCount;
             private bool _running;
 
-            public Parallel(ITween[] tweens, Action onComplete = null)
+            public Parallel(TweenBase[] tweens, Action onComplete = null)
             {
                 _tweens = tweens;
                 _onComplete = onComplete;
@@ -249,7 +249,7 @@ namespace SAS.TweenManagement
         {
             private const int MaxSteps = 8;
 
-            private readonly ITween[] _steps = new ITween[MaxSteps];
+            private readonly TweenBase[] _steps = new TweenBase[MaxSteps];
             private int _count;
             private int _index;
 
@@ -266,7 +266,7 @@ namespace SAS.TweenManagement
                 return this;
             }
 
-            public Sequence Append(ITween tween)
+            public Sequence Append(TweenBase tween)
             {
 #if UNITY_EDITOR
                 if (_count >= MaxSteps)
@@ -301,14 +301,14 @@ namespace SAS.TweenManagement
 
             private void PlayCurrent()
             {
-                ITween tween = _steps[_index];
+                TweenBase tween = _steps[_index];
                 TweenRunner.AddCallback(tween, OnTweenComplete);
                 tween.Run();
             }
 
             private void OnTweenComplete()
             {
-                ITween tween = _steps[_index];
+                TweenBase tween = _steps[_index];
                 TweenRunner.RemoveCallback(tween, OnTweenComplete);
 
                 if (++_index < _count)

@@ -19,7 +19,7 @@ namespace SAS.TweenManagement
 
         public static void Release(ValueTween<T> tween)
         {
-            tween.Reset();
+            tween.ResetState();
             Pool.Push(tween);
         }
     }

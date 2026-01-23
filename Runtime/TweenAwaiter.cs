@@ -5,11 +5,11 @@ namespace SAS.TweenManagement
 {
     public class TweenAwaiter : INotifyCompletion
     {
-        private ITween _itween;
+        private TweenBase _itween;
         private bool _isCompleted;
         private Action _continuation;
 
-        public TweenAwaiter(ITween itween)
+        public TweenAwaiter(TweenBase itween)
         {
             _itween = itween;
             _isCompleted = false;
@@ -49,7 +49,7 @@ namespace SAS.TweenManagement
             _continuation = continuation;
         }
 
-        public ITween GetResult()
+        public TweenBase GetResult()
         {
             return _itween;
         }

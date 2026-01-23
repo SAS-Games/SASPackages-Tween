@@ -8,8 +8,8 @@ namespace SAS.TweenManagement
         [SerializeField] protected TweenConfig m_ParamConfig;
 
         protected Transform _transform;
-        protected ITween _tween;
-        public ITween TweenInstance => _tween;
+        protected TweenBase _tween;
+        public TweenBase TweenInstance => _tween;
 
 
         void OnEnable()

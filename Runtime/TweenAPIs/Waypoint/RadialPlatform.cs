@@ -7,7 +7,7 @@ namespace SAS.TweenManagement.Waypoints
         [SerializeField] private Transform m_Platform;
         [SerializeField] private float m_Radius = 5;
         [SerializeField] private TweenConfig m_TweenConfig;
-        private ITween _tween;
+        private TweenBase _tween;
 
         void Start()
         {
