@@ -34,9 +34,9 @@ namespace SAS.TweenManagement
             Vector3 pos = Vector3.LerpUnclamped(_fromPos, _toPos, t);
             Quaternion rot = Quaternion.SlerpUnclamped(_fromRot, _toRot, t);
 
-            // if (_isLocal)
-            //     _transform.SetLocalPositionAndRotation(pos, rot);
-            // else
+            if (_isLocal)
+                _transform.SetLocalPositionAndRotation(pos, rot);
+            else
                 _transform.SetPositionAndRotation(pos, rot);
         }
 
