@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace SAS.TweenManagement
 {
@@ -6,11 +8,12 @@ namespace SAS.TweenManagement
     {
         [SerializeField] private bool m_PlayOnEnable = false;
         [SerializeField] protected TweenConfig m_ParamConfig;
+        [SerializeField] UnityEvent m_OnTweenComplete;
 
         protected Transform _transform;
         protected TweenBase _tween;
         public TweenBase TweenInstance => _tween;
-
+        private Action _onComplete;
 
         void OnEnable()
         {
@@ -21,6 +24,8 @@ namespace SAS.TweenManagement
         {
             if (!_transform)
                 _transform = transform;
+            _tween.RemoveCallback(m_OnTweenComplete.Invoke);
+            _tween.AddCallback(m_OnTweenComplete.Invoke);
             if (ontweenCompleted != null)
                 _tween.AddCallback(ontweenCompleted);
         }
