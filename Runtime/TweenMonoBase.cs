@@ -17,15 +17,15 @@ namespace SAS.TweenManagement
 
         void OnEnable()
         {
-            if (m_PlayOnEnable) Play();
+            if (m_PlayOnEnable) 
+                Play();
         }
 
         public virtual void Play(OnAnimationCompleteCallback ontweenCompleted)
         {
             if (!_transform)
                 _transform = transform;
-            _tween.RemoveCallback(m_OnTweenComplete.Invoke);
-            _tween.AddCallback(m_OnTweenComplete.Invoke);
+            
             if (ontweenCompleted != null)
                 _tween.AddCallback(ontweenCompleted);
         }
@@ -33,6 +33,13 @@ namespace SAS.TweenManagement
         public void Play()
         {
             Play(null);
+            RegisterEvent();
+        }
+
+        private void RegisterEvent()
+        {
+            _tween.RemoveCallback(m_OnTweenComplete.Invoke);
+            _tween.AddCallback(m_OnTweenComplete.Invoke);
         }
 
         protected abstract void Reset();
