@@ -4,10 +4,9 @@ namespace SAS.TweenManagement
 {
     sealed class EulerAnglesTween : V3TweenMonoBase
     {
-        public override void Play(OnAnimationCompleteCallback ontweenCompleted)
+        protected override TweenBase CreateTween()
         {
-            base.Play(ontweenCompleted);
-            _tween = Tween.EulerAngles(_transform, _resolvedFrom, _resolvedTo, m_ParamConfig);
+            return Tween.EulerAngles(_transform, _resolvedFrom, _resolvedTo, m_ParamConfig);
         }
 
         protected override Vector3 GetCurrentValue() => _transform.eulerAngles;

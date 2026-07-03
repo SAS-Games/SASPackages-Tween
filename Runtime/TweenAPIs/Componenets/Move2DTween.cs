@@ -4,10 +4,9 @@ namespace SAS.TweenManagement
 {
     sealed class Move2DTween : V2TweenMonoBase
     {
-        public override void Play(OnAnimationCompleteCallback ontweenCompleted)
+        protected override TweenBase CreateTween()
         {
-            base.Play(ontweenCompleted);
-            _tween = Tween.Move(_transform, _resolvedFrom, _resolvedTo, m_ParamConfig);
+            return Tween.Move(_transform, _resolvedFrom, _resolvedTo, m_ParamConfig);
         }
 
         protected override Vector2 GetCurrentValue() => transform.position;

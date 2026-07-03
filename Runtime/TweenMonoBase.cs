@@ -8,39 +8,47 @@ namespace SAS.TweenManagement
     {
         [SerializeField] private bool m_PlayOnEnable = false;
         [SerializeField] protected TweenConfig m_ParamConfig;
-        [SerializeField] UnityEvent m_OnTweenComplete;
+        [SerializeField] private UnityEvent m_OnTweenComplete;
 
         protected Transform _transform;
         protected TweenBase _tween;
+
         public TweenBase TweenInstance => _tween;
-        private Action _onComplete;
 
-        void OnEnable()
+        private void OnEnable()
         {
-            if (m_PlayOnEnable) 
+            if (m_PlayOnEnable)
                 Play();
-        }
-
-        public virtual void Play(OnAnimationCompleteCallback ontweenCompleted)
-        {
-            if (!_transform)
-                _transform = transform;
-            
-            if (ontweenCompleted != null)
-                _tween.AddCallback(ontweenCompleted);
         }
 
         public void Play()
         {
             Play(null);
-            RegisterEvent();
         }
 
-        private void RegisterEvent()
+        public void Play(OnAnimationCompleteCallback onTweenCompleted)
         {
+            if (!_transform)
+                _transform = transform;
+
+            PrepareTween();
+
+            _tween?.Stop(true);
+            _tween = CreateTween();
+
+            if (_tween == null)
+                throw new InvalidOperationException($"{GetType().Name} did not create a tween.");
+
             _tween.RemoveCallback(m_OnTweenComplete.Invoke);
             _tween.AddCallback(m_OnTweenComplete.Invoke);
+
+            if (onTweenCompleted != null)
+                _tween.AddCallback(onTweenCompleted);
         }
+
+        protected abstract void PrepareTween();
+
+        protected abstract TweenBase CreateTween();
 
         protected abstract void Reset();
 
@@ -50,7 +58,7 @@ namespace SAS.TweenManagement
             _tween?.Stop(true);
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             _tween?.Stop(true);
             _transform = null;

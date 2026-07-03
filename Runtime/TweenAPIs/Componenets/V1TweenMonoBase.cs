@@ -12,12 +12,10 @@ abstract class V1TweenMonoBase : TweenMonoBase
     private float From => m_useCurrentAsFrom ? GetCurrentValue() : m_from;
     private float To => m_isAdditive ? From + m_To : m_To;
 
-    public override void Play(OnAnimationCompleteCallback onTweenCompleted)
+    protected sealed override void PrepareTween()
     {
         _resolvedFrom = From;
         _resolvedTo = To;
-
-        base.Play(onTweenCompleted);
     }
 
     protected abstract float GetCurrentValue();

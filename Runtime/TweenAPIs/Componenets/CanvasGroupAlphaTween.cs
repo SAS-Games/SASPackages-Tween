@@ -5,10 +5,9 @@ namespace SAS.TweenManagement
     [RequireComponent(typeof(CanvasGroup))]
     sealed class CanvasGroupAlphaTween : V1TweenMonoBase
     {
-        public override void Play(OnAnimationCompleteCallback ontweenCompleted)
+        protected override TweenBase CreateTween()
         {
-            base.Play(ontweenCompleted);
-            _tween = Tween.Alpha(_transform.GetComponent<CanvasGroup>(), _resolvedFrom, _resolvedTo, m_ParamConfig);
+            return Tween.Alpha(_transform.GetComponent<CanvasGroup>(), _resolvedFrom, _resolvedTo, m_ParamConfig);
         }
 
         protected override float GetCurrentValue() => _transform.GetComponent<CanvasGroup>().alpha;

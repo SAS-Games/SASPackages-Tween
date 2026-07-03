@@ -14,12 +14,10 @@ abstract class V3TweenMonoBase : TweenMonoBase
     private Vector3 From => m_useCurrentAsFrom ? GetCurrentValue() : m_from;
     private Vector3 To => m_isAdditive ? From + m_To : m_To;
 
-    public override void Play(OnAnimationCompleteCallback onTweenCompleted)
+    protected override void PrepareTween()
     {
         _resolvedFrom = From;
         _resolvedTo = To;
-
-        base.Play(onTweenCompleted);
     }
 
     protected abstract Vector3 GetCurrentValue();
